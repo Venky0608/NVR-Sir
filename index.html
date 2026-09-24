@@ -11,336 +11,168 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root{
-    --coral:      #FF6B6B;
-    --coral-deep: #E63946;
-    --mango:      #FFB84D;
-    --mango-deep: #FF8C42;
-    --sunset:     #FF5E5B;
-    --aqua:       #4ECDC4;
-    --aqua-deep:  #1A9E96;
-    --lagoon:     #45B7D1;
-    --palm:       #2EC4B6;
-    --lime:       #C7F464;
-    --sand:       #FFE66D;
-    --hibiscus:   #FF4D9D;
-    --grape:      #A06CD5;
-    --cream:      #FFF8E7;
-    --ink:        #1A1A2E;
-    --ink-soft:   #2D2D44;
-    --paper:      #FFFDF7;
+    --coral:#FF6B6B; --coral-deep:#E63946; --mango:#FFB84D; --mango-deep:#FF8C42;
+    --sunset:#FF5E5B; --aqua:#4ECDC4; --aqua-deep:#1A9E96; --lagoon:#45B7D1;
+    --palm:#2EC4B6; --lime:#C7F464; --sand:#FFE66D; --hibiscus:#FF4D9D;
+    --grape:#A06CD5; --cream:#FFF8E7; --ink:#1A1A2E; --ink-soft:#2D2D44; --paper:#FFFDF7;
   }
   *{box-sizing:border-box;}
-  html,body{
-    margin:0; min-height:100%;
-    -webkit-font-smoothing:antialiased;
-    font-family:'Outfit', system-ui, sans-serif;
-    color:var(--ink);
-    overflow-x:hidden;
-  }
+  html,body{margin:0;min-height:100%;-webkit-font-smoothing:antialiased;
+    font-family:'Outfit',system-ui,sans-serif;color:var(--ink);overflow-x:hidden;}
   html{scroll-padding-top:env(safe-area-inset-top,0px);}
-  body{
-    padding-top:env(safe-area-inset-top,0px);
-    padding-bottom:env(safe-area-inset-bottom,0px);
+  body{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
     background:
       radial-gradient(circle at 15% 10%, rgba(255,184,77,0.35) 0%, transparent 45%),
       radial-gradient(circle at 85% 20%, rgba(255,107,107,0.30) 0%, transparent 50%),
       radial-gradient(circle at 50% 90%, rgba(78,205,196,0.35) 0%, transparent 55%),
       linear-gradient(180deg, #FFF3D6 0%, #FFE3C2 40%, #FFD1B8 100%);
-    background-attachment: fixed;
-  }
-  .mono{font-family:'JetBrains Mono', ui-monospace, monospace;}
-  ::selection{background:var(--hibiscus); color:#fff;}
+    background-attachment:fixed;}
+  .mono{font-family:'JetBrains Mono',ui-monospace,monospace;}
+  ::selection{background:var(--hibiscus);color:#fff;}
 
-  .slide{display:none; min-height:100vh; position:relative;}
+  .slide{display:none;min-height:100vh;position:relative;}
   .slide.active{display:block;}
   .fade-out{animation:fadeOut .55s ease forwards;}
   .fade-in{animation:fadeIn .6s ease forwards;}
-  @keyframes fadeOut{to{opacity:0; transform:scale(.98);}}
-  @keyframes fadeIn{from{opacity:0; transform:scale(1.01);} to{opacity:1; transform:scale(1);}}
+  @keyframes fadeOut{to{opacity:0;transform:scale(.98);}}
+  @keyframes fadeIn{from{opacity:0;transform:scale(1.01);}to{opacity:1;transform:scale(1);}}
 
-  .tropical-bg{
-    background-image:
+  .tropical-bg{background-image:
       radial-gradient(circle at 10% 15%, rgba(255,255,255,0.5) 0%, transparent 25%),
       radial-gradient(circle at 90% 85%, rgba(255,255,255,0.4) 0%, transparent 30%),
-      repeating-linear-gradient(45deg,
-        rgba(255,255,255,0.25) 0px,
-        rgba(255,255,255,0.25) 2px,
-        transparent 2px,
-        transparent 18px);
-    background-size: auto, auto, 40px 40px;
-  }
-  .wave-bg{
-    background-image:
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.25) 0px, rgba(255,255,255,0.25) 2px, transparent 2px, transparent 18px);
+    background-size:auto,auto,40px 40px;}
+  .wave-bg{background-image:
       radial-gradient(circle at 20% 30%, rgba(255,255,255,0.35) 0%, transparent 20%),
-      radial-gradient(circle at 80% 70%, rgba(255,255,255,0.35) 0%, transparent 20%);
-  }
+      radial-gradient(circle at 80% 70%, rgba(255,255,255,0.35) 0%, transparent 20%);}
 
-  .text-sunset-gradient{
-    background:linear-gradient(135deg, var(--coral) 0%, var(--mango) 45%, var(--hibiscus) 100%);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-  }
-  .text-ocean-gradient{
-    background:linear-gradient(135deg, var(--lagoon) 0%, var(--palm) 50%, var(--lime) 100%);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-  }
-  .text-mango-gradient{
-    background:linear-gradient(135deg, var(--mango-deep) 0%, var(--sunset) 60%, var(--hibiscus) 100%);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-  }
+  .text-sunset-gradient{background:linear-gradient(135deg,var(--coral) 0%,var(--mango) 45%,var(--hibiscus) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .text-ocean-gradient{background:linear-gradient(135deg,var(--lagoon) 0%,var(--palm) 50%,var(--lime) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .text-mango-gradient{background:linear-gradient(135deg,var(--mango-deep) 0%,var(--sunset) 60%,var(--hibiscus) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
 
-  .sticker{
-    display:inline-block;
-    padding:6px 14px;
-    border-radius:999px;
-    font-weight:700;
-    font-size:.75rem;
-    letter-spacing:.06em;
-    text-transform:uppercase;
-    box-shadow:0 4px 14px rgba(0,0,0,0.12);
-    transform:rotate(-2deg);
-  }
-  .sticker-coral  {background:var(--coral);   color:#fff; transform:rotate(-3deg);}
-  .sticker-mango  {background:var(--mango);   color:#5A2E00;}
-  .sticker-aqua   {background:var(--aqua);    color:#003330; transform:rotate(2deg);}
-  .sticker-lime   {background:var(--lime);    color:#3A4D00; transform:rotate(-2deg);}
-  .sticker-hibiscus{background:var(--hibiscus);color:#fff; transform:rotate(3deg);}
+  .sticker{display:inline-block;padding:6px 14px;border-radius:999px;font-weight:700;
+    font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;
+    box-shadow:0 4px 14px rgba(0,0,0,0.12);transform:rotate(-2deg);}
+  .sticker-coral{background:var(--coral);color:#fff;transform:rotate(-3deg);}
+  .sticker-mango{background:var(--mango);color:#5A2E00;}
+  .sticker-aqua{background:var(--aqua);color:#003330;transform:rotate(2deg);}
+  .sticker-lime{background:var(--lime);color:#3A4D00;transform:rotate(-2deg);}
+  .sticker-hibiscus{background:var(--hibiscus);color:#fff;transform:rotate(3deg);}
 
-  .slot{
-    width:54px; height:68px;
-    border:3px dashed rgba(26,26,46,0.25);
-    border-radius:16px;
-    display:flex; align-items:center; justify-content:center;
-    font-size:1.3rem; font-weight:800;
-    background:var(--paper);
-    color:var(--ink);
-    transition: all .25s cubic-bezier(.34,1.56,.64,1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  }
-  @media(min-width:480px){.slot{width:66px; height:80px; font-size:1.6rem;}}
-  .slot.filled{
-    border-style:solid;
-    border-color:var(--mango-deep);
-    background:linear-gradient(135deg, #FFE9B8, var(--mango) 60%, var(--mango-deep));
-    color:#5A2E00;
-    box-shadow:0 6px 20px rgba(255,184,77,.6);
-    transform:translateY(-3px) rotate(-2deg);
-  }
-  .slot.correct-flash{
-    border-color:var(--palm);
-    background:linear-gradient(135deg, var(--lime), var(--palm));
-    color:#003330;
-    box-shadow:0 0 32px rgba(46,196,182,.8);
-    animation: slotPop .45s ease;
-  }
-  .slot.wrong-flash{
-    border-color:var(--coral-deep);
-    background:#FFD5D5;
-    color:var(--coral-deep);
-  }
+  .slot{width:54px;height:68px;border:3px dashed rgba(26,26,46,0.25);border-radius:16px;
+    display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:800;
+    background:var(--paper);color:var(--ink);
+    transition:all .25s cubic-bezier(.34,1.56,.64,1);box-shadow:0 4px 12px rgba(0,0,0,0.08);}
+  @media(min-width:480px){.slot{width:66px;height:80px;font-size:1.6rem;}}
+  .slot.filled{border-style:solid;border-color:var(--mango-deep);
+    background:linear-gradient(135deg,#FFE9B8,var(--mango) 60%,var(--mango-deep));
+    color:#5A2E00;box-shadow:0 6px 20px rgba(255,184,77,.6);transform:translateY(-3px) rotate(-2deg);}
+  .slot.correct-flash{border-color:var(--palm);
+    background:linear-gradient(135deg,var(--lime),var(--palm));color:#003330;
+    box-shadow:0 0 32px rgba(46,196,182,.8);animation:slotPop .45s ease;}
+  .slot.wrong-flash{border-color:var(--coral-deep);background:#FFD5D5;color:var(--coral-deep);}
   @keyframes slotPop{50%{transform:scale(1.15) rotate(3deg);}}
   .shake{animation:shake .42s ease;}
-  @keyframes shake{
-    10%,90%{transform:translateX(-2px);}
-    20%,80%{transform:translateX(4px);}
-    30%,50%,70%{transform:translateX(-8px);}
-    40%,60%{transform:translateX(8px);}
-  }
+  @keyframes shake{10%,90%{transform:translateX(-2px);}20%,80%{transform:translateX(4px);}
+    30%,50%,70%{transform:translateX(-8px);}40%,60%{transform:translateX(8px);}}
 
-  .elt-tile{
-    aspect-ratio:1/1;
-    border:none;
-    border-radius:14px;
-    display:flex; align-items:center; justify-content:center;
-    font-weight:800; font-size:1rem;
-    color:#fff;
-    cursor:pointer;
-    transition: transform .15s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
-    user-select:none;
-    box-shadow: 0 5px 0 rgba(0,0,0,0.15), 0 8px 16px rgba(0,0,0,0.1);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
-  }
-  .elt-tile:hover{
-    transform: translateY(-4px) rotate(-3deg);
-    box-shadow: 0 9px 0 rgba(0,0,0,0.15), 0 14px 24px rgba(0,0,0,0.15);
-  }
-  .elt-tile:active{
-    transform: translateY(2px);
-    box-shadow: 0 2px 0 rgba(0,0,0,0.15);
-  }
+  .elt-tile{aspect-ratio:1/1;border:none;border-radius:14px;display:flex;align-items:center;
+    justify-content:center;font-weight:800;font-size:1rem;color:#fff;cursor:pointer;
+    transition:transform .15s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;user-select:none;
+    box-shadow:0 5px 0 rgba(0,0,0,0.15),0 8px 16px rgba(0,0,0,0.1);
+    text-shadow:0 1px 2px rgba(0,0,0,0.15);}
+  .elt-tile:hover{transform:translateY(-4px) rotate(-3deg);
+    box-shadow:0 9px 0 rgba(0,0,0,0.15),0 14px 24px rgba(0,0,0,0.15);}
+  .elt-tile:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,0.15);}
 
-  /* ===== PERIODIC TABLE — bigger, squarer, more readable ===== */
-  .ptable{
-    display:grid;
-    grid-template-columns:repeat(18, minmax(0,1fr));
-    gap:8px;
-    padding:18px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.45));
-    border-radius:24px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-    backdrop-filter: blur(6px);
-    width:100%;
-  }
-  .student-tile{
-    position:relative;
-    aspect-ratio:1 / 1;             /* ← square tiles */
-    border:2px solid rgba(255,255,255,0.65);
-    border-radius:14px;
-    padding:5px 5px 4px;
-    cursor:pointer;
-    transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
-    overflow:hidden;
-    color:#FFFFFF;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.25);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.10);
-    display:flex;
-    flex-direction:column;
-  }
-  .student-tile:hover{
-    transform: translateY(-5px) rotate(-2deg) scale(1.08);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.20);
-    z-index:5;
-  }
-  .student-tile.opened::after{
-    content:'✓';
-    position:absolute; bottom:4px; right:5px;
-    font-size:.8rem; font-weight:900;
-    color:#fff;
-    background:var(--palm);
-    width:18px; height:18px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    box-shadow: 0 0 8px rgba(46,196,182,.8);
-    line-height:1;
-  }
-  .student-tile .num{
-    position:absolute; top:5px; left:7px;
-    font-size:.62rem; font-weight:800;
-    opacity:.95;
-    letter-spacing:.02em;
-  }
-  .student-tile .mass{
-    position:absolute; top:5px; right:7px;
-    font-size:.58rem; font-weight:700;
-    opacity:.9;
-  }
-  .student-tile .sym{
-    font-size:1.35rem; font-weight:900; text-align:center;
-    margin-top:18px;
-    line-height:1;
-    letter-spacing:.02em;
-    text-shadow: 0 2px 3px rgba(0,0,0,0.25);
-  }
-  .student-tile .nm{
-    font-size:.6rem; text-align:center; font-weight:700;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    padding:0 3px; opacity:.95;
-    margin-top:auto;
-    margin-bottom:2px;
-    line-height:1.1;
-  }
+  .ptable{display:grid;grid-template-columns:repeat(18,minmax(0,1fr));gap:7px;padding:18px;
+    background:linear-gradient(180deg,rgba(255,255,255,0.75),rgba(255,255,255,0.45));
+    border-radius:24px;box-shadow:0 10px 40px rgba(0,0,0,0.08);
+    backdrop-filter:blur(6px);width:100%;}
+  .student-tile{position:relative;aspect-ratio:1/1;border:2px solid rgba(255,255,255,0.65);
+    border-radius:12px;padding:5px 5px 4px;cursor:pointer;
+    transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;
+    overflow:hidden;color:#FFFFFF;text-shadow:0 1px 2px rgba(0,0,0,0.25);
+    box-shadow:0 4px 10px rgba(0,0,0,0.10);display:flex;flex-direction:column;}
+  .student-tile:hover{transform:translateY(-5px) rotate(-2deg) scale(1.08);
+    box-shadow:0 12px 24px rgba(0,0,0,0.20);z-index:5;}
+  .student-tile.opened::after{content:'✓';position:absolute;bottom:4px;right:5px;
+    font-size:.75rem;font-weight:900;color:#fff;background:var(--palm);
+    width:17px;height:17px;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;box-shadow:0 0 8px rgba(46,196,182,.8);line-height:1;}
+  .student-tile .num{position:absolute;top:4px;left:6px;font-size:.6rem;font-weight:800;
+    opacity:.95;letter-spacing:.02em;}
+  .student-tile .mass{position:absolute;top:4px;right:6px;font-size:.55rem;font-weight:700;opacity:.9;}
+  .student-tile .sym{font-size:1.25rem;font-weight:900;text-align:center;margin-top:16px;
+    line-height:1;letter-spacing:.02em;text-shadow:0 2px 3px rgba(0,0,0,0.25);}
+  .student-tile .nm{font-size:.55rem;text-align:center;font-weight:700;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis;padding:0 3px;opacity:.95;
+    margin-top:auto;margin-bottom:2px;line-height:1.1;}
 
-  /* Bigger on wider screens */
   @media(min-width:640px){
-    .ptable{gap:9px; padding:20px;}
-    .student-tile{border-radius:16px; padding:6px 6px 5px;}
-    .student-tile .sym{font-size:1.75rem; margin-top:22px;}
-    .student-tile .num{font-size:.72rem; top:6px; left:8px;}
-    .student-tile .mass{font-size:.66rem; top:6px; right:8px;}
+    .ptable{gap:9px;padding:20px;}
+    .student-tile{border-radius:14px;padding:6px 6px 5px;}
+    .student-tile .sym{font-size:1.75rem;margin-top:22px;}
+    .student-tile .num{font-size:.72rem;top:6px;left:8px;}
+    .student-tile .mass{font-size:.66rem;top:6px;right:8px;}
     .student-tile .nm{font-size:.68rem;}
-    .student-tile.opened::after{width:20px; height:20px; font-size:.85rem;}
+    .student-tile.opened::after{width:20px;height:20px;font-size:.85rem;}
   }
   @media(min-width:1024px){
-    .ptable{gap:10px; padding:22px;}
-    .student-tile .sym{font-size:2rem; margin-top:26px;}
-    .student-tile .num{font-size:.8rem;}
-    .student-tile .mass{font-size:.72rem;}
-    .student-tile .nm{font-size:.74rem;}
+    .ptable{gap:10px;padding:22px;}
+    .student-tile .sym{font-size:2rem;margin-top:26px;}
+    .student-tile .num{font-size:.82rem;}
+    .student-tile .mass{font-size:.74rem;}
+    .student-tile .nm{font-size:.76rem;}
   }
 
-  .modal-backdrop{
-    position:fixed; inset:0;
-    background:rgba(26,26,46,.6);
-    backdrop-filter: blur(10px);
-    display:flex; align-items:center; justify-content:center;
-    padding:20px; z-index:50;
-    animation: modalBgIn .25s ease;
-  }
+  .modal-backdrop{position:fixed;inset:0;background:rgba(26,26,46,.6);backdrop-filter:blur(10px);
+    display:flex;align-items:center;justify-content:center;padding:20px;z-index:50;
+    animation:modalBgIn .25s ease;}
   @keyframes modalBgIn{from{opacity:0;}to{opacity:1;}}
-  .modal-card{
-    background:var(--paper);
-    border:4px solid var(--ink);
-    border-radius:24px;
-    max-width:440px; width:100%;
-    padding:28px;
-    position:relative;
-    box-shadow: 10px 10px 0 var(--coral);
-    animation: modalIn .35s cubic-bezier(.34,1.56,.64,1);
-  }
-  @keyframes modalIn{from{transform:scale(.9) rotate(-2deg); opacity:0;} to{transform:scale(1) rotate(0); opacity:1;}}
+  .modal-card{background:var(--paper);border:4px solid var(--ink);border-radius:24px;
+    max-width:440px;width:100%;padding:28px;position:relative;
+    box-shadow:10px 10px 0 var(--coral);animation:modalIn .35s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes modalIn{from{transform:scale(.9) rotate(-2deg);opacity:0;}to{transform:scale(1) rotate(0);opacity:1;}}
 
-  .hazard-btn{
-    width:220px; height:220px; border-radius:9999px;
-    background:radial-gradient(circle at 32% 28%, #FFE066 0%, var(--mango) 35%, var(--sunset) 70%, var(--coral-deep) 100%);
-    border:6px solid var(--cream);
-    color:#5A1A00; font-weight:900; letter-spacing:.04em;
-    font-size:1rem;
-    display:flex; align-items:center; justify-content:center; text-align:center;
-    animation:bouncePulse 2s ease-in-out infinite;
-    cursor:pointer;
-    box-shadow:
-      0 0 0 10px rgba(255,94,91,.25),
-      0 0 60px rgba(255,140,66,.7),
-      0 20px 40px rgba(230,57,70,.4);
-    transition: transform .2s;
-  }
-  @media(min-width:480px){.hazard-btn{width:250px; height:250px; font-size:1.15rem;}}
+  .hazard-btn{width:220px;height:220px;border-radius:9999px;
+    background:radial-gradient(circle at 32% 28%,#FFE066 0%,var(--mango) 35%,var(--sunset) 70%,var(--coral-deep) 100%);
+    border:6px solid var(--cream);color:#5A1A00;font-weight:900;letter-spacing:.04em;font-size:1rem;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    animation:bouncePulse 2s ease-in-out infinite;cursor:pointer;
+    box-shadow:0 0 0 10px rgba(255,94,91,.25),0 0 60px rgba(255,140,66,.7),0 20px 40px rgba(230,57,70,.4);
+    transition:transform .2s;}
+  @media(min-width:480px){.hazard-btn{width:250px;height:250px;font-size:1.15rem;}}
   .hazard-btn:hover{transform:scale(1.05) rotate(-2deg);}
   @keyframes bouncePulse{
-    0%,100%{
-      box-shadow:0 0 0 10px rgba(255,94,91,.25), 0 0 50px rgba(255,140,66,.6), 0 20px 40px rgba(230,57,70,.4);
-      transform: translateY(0) scale(1);
-    }
-    50%{
-      box-shadow:0 0 0 22px rgba(255,94,91,.08), 0 0 90px rgba(255,140,66,.9), 0 20px 40px rgba(230,57,70,.4);
-      transform: translateY(-6px) scale(1.02);
-    }
+    0%,100%{box-shadow:0 0 0 10px rgba(255,94,91,.25),0 0 50px rgba(255,140,66,.6),0 20px 40px rgba(230,57,70,.4);transform:translateY(0) scale(1);}
+    50%{box-shadow:0 0 0 22px rgba(255,94,91,.08),0 0 90px rgba(255,140,66,.9),0 20px 40px rgba(230,57,70,.4);transform:translateY(-6px) scale(1.02);}
   }
 
-  .btn-pop{
-    display:inline-block;
-    font-weight:800;
-    padding:14px 28px;
-    border-radius:999px;
-    border:none;
-    cursor:pointer;
-    transition: transform .15s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
-    box-shadow: 0 6px 0 rgba(0,0,0,0.2), 0 10px 24px rgba(0,0,0,0.15);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-  }
-  .btn-pop:hover{transform: translateY(-3px); box-shadow: 0 9px 0 rgba(0,0,0,0.2), 0 14px 28px rgba(0,0,0,0.2);}
-  .btn-pop:active{transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,0.2);}
-  .btn-palm{background:linear-gradient(135deg, var(--palm), var(--aqua-deep)); color:#fff;}
-  .btn-coral{background:linear-gradient(135deg, var(--coral), var(--coral-deep)); color:#fff;}
-  .btn-lagoon{background:linear-gradient(135deg, var(--lagoon), var(--palm)); color:#fff;}
-  .btn-mango{background:linear-gradient(135deg, var(--mango), var(--mango-deep)); color:#5A2E00;}
+  .btn-pop{display:inline-block;font-weight:800;padding:14px 28px;border-radius:999px;border:none;
+    cursor:pointer;transition:transform .15s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;
+    box-shadow:0 6px 0 rgba(0,0,0,0.2),0 10px 24px rgba(0,0,0,0.15);text-shadow:0 1px 2px rgba(0,0,0,0.1);}
+  .btn-pop:hover{transform:translateY(-3px);box-shadow:0 9px 0 rgba(0,0,0,0.2),0 14px 28px rgba(0,0,0,0.2);}
+  .btn-pop:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,0.2);}
+  .btn-palm{background:linear-gradient(135deg,var(--palm),var(--aqua-deep));color:#fff;}
+  .btn-coral{background:linear-gradient(135deg,var(--coral),var(--coral-deep));color:#fff;}
+  .btn-lagoon{background:linear-gradient(135deg,var(--lagoon),var(--palm));color:#fff;}
+  .btn-mango{background:linear-gradient(135deg,var(--mango),var(--mango-deep));color:#5A2E00;}
 
-  .paper-card{
-    background:var(--paper);
-    border:3px solid var(--ink);
-    border-radius:20px;
-    padding:22px;
-    box-shadow: 8px 8px 0 var(--mango);
-  }
-  .paper-card-aqua{box-shadow: 8px 8px 0 var(--aqua);}
-  .paper-card-coral{box-shadow: 8px 8px 0 var(--coral);}
-  .paper-card-lime{box-shadow: 8px 8px 0 var(--lime);}
-  .paper-card-hibiscus{box-shadow: 8px 8px 0 var(--hibiscus);}
+  .paper-card{background:var(--paper);border:3px solid var(--ink);border-radius:20px;padding:22px;
+    box-shadow:8px 8px 0 var(--mango);}
+  .paper-card-aqua{box-shadow:8px 8px 0 var(--aqua);}
+  .paper-card-coral{box-shadow:8px 8px 0 var(--coral);}
+  .paper-card-lime{box-shadow:8px 8px 0 var(--lime);}
+  .paper-card-hibiscus{box-shadow:8px 8px 0 var(--hibiscus);}
 
-  ::-webkit-scrollbar{width:12px; height:12px;}
+  ::-webkit-scrollbar{width:12px;height:12px;}
   ::-webkit-scrollbar-track{background:transparent;}
-  ::-webkit-scrollbar-thumb{
-    background:linear-gradient(180deg, var(--coral), var(--mango));
-    border-radius:8px; border:2px solid var(--cream);
-  }
+  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--coral),var(--mango));
+    border-radius:8px;border:2px solid var(--cream);}
 </style>
 </head>
 <body>
@@ -348,19 +180,14 @@
 <!-- ================= SLIDE 1 : LAB LOGIN ================= -->
 <section id="slide1" class="slide active tropical-bg">
   <div class="max-w-3xl mx-auto px-5 py-10 sm:py-16 flex flex-col items-center text-center min-h-screen justify-center">
-
     <span class="sticker sticker-coral mono mb-5">🌴 CHEM-LAB-01 · SECURE TERMINAL</span>
-
     <h1 class="text-3xl sm:text-5xl font-black mb-3 text-sunset-gradient">
       AUTHORIZED ACCESS ONLY 🧪
     </h1>
     <p id="typeLine" class="mono text-[var(--ink-soft)] text-sm sm:text-base mb-10 min-h-[1.5em] font-semibold"></p>
-
     <div id="slots" class="flex gap-2 sm:gap-3 mb-3"></div>
     <p id="statusLine" class="mono text-xs sm:text-sm h-5 mb-8 tracking-wide font-bold"></p>
-
     <div id="keypad" class="grid grid-cols-6 sm:grid-cols-8 gap-2 sm:gap-3 max-w-xl w-full"></div>
-
     <p class="mono text-[11px] sm:text-xs mt-8 font-semibold text-[var(--ink-soft)] opacity-70">
       Hint: the correct compound spells a familiar name.
     </p>
@@ -373,9 +200,7 @@
     class="fixed bottom-2 right-2 z-40 opacity-10 hover:opacity-70 transition-opacity text-[10px] mono font-bold text-[var(--ink-soft)] border-2 border-[var(--ink-soft)] rounded-full px-3 py-1 bg-[var(--paper)]">
     skip
   </button>
-
   <div class="max-w-7xl mx-auto px-3 sm:px-6 py-10 sm:py-14">
-
     <div class="mb-8 text-center sm:text-left">
       <span class="sticker sticker-aqua mono mb-3">📋 LAB REPORT · EXPERIMENT #001</span>
       <h2 class="text-2xl sm:text-4xl font-black mb-2 text-ocean-gradient leading-tight">
@@ -385,23 +210,19 @@
         SUPERVISOR: <span class="text-[var(--coral-deep)]">Prof. Naveen Reddii</span>
       </p>
     </div>
-
     <div class="paper-card paper-card-coral mb-10">
       <span class="sticker sticker-lime mono mb-3">HYPOTHESIS</span>
       <p class="text-sm sm:text-base leading-relaxed font-medium mt-2">
         By combining 50 unique elemental personalities under the catalytic guidance of Mr. Naveen Reddii, a perfectly stable and irreplaceable compound of memories is synthesized. 🌊
       </p>
     </div>
-
     <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
       <p class="mono text-xs sm:text-sm font-bold text-[var(--ink-soft)]" id="progressLine">0 / 50 samples logged</p>
       <span class="sticker sticker-hibiscus mono">TAP ANY TILE ✨</span>
     </div>
-
     <div id="ptable" class="ptable mb-10"></div>
   </div>
 
-  <!-- MODAL -->
   <div id="studentModal" class="modal-backdrop hidden">
     <div class="modal-card">
       <button id="closeModal" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-[var(--coral)] text-white font-black text-lg leading-none hover:rotate-90 transition-transform duration-200 flex items-center justify-center">✕</button>
@@ -436,7 +257,6 @@
 <section id="slide3" class="slide">
   <div class="min-h-screen flex flex-col items-center justify-center px-5 py-14 text-center relative overflow-hidden tropical-bg">
     <div class="relative z-10 max-w-2xl w-full flex flex-col items-center">
-
       <div id="warnBlock">
         <span class="sticker sticker-coral mono mb-6">⚠️ WARNING · CRITICAL MASS</span>
         <h2 class="text-2xl sm:text-4xl font-black mb-4 text-sunset-gradient leading-tight">
@@ -447,7 +267,6 @@
           <span style="line-height:1.25;">DROP<br>SODIUM<br>IN WATER 💥</span>
         </button>
       </div>
-
       <div id="videoBlock" class="hidden w-full mt-4">
         <span class="sticker sticker-mango mono mb-4">[LIVE FEED · CLASS REACTION]</span>
         <video id="chemVideo" controls width="100%" class="rounded-2xl border-4 border-[var(--ink)] shadow-2xl mt-2">
@@ -458,7 +277,6 @@
           The impact you made on us was just as explosive.<br>Click for a final conclusion ➔
         </button>
       </div>
-
     </div>
   </div>
 </section>
@@ -467,56 +285,47 @@
 <section id="slide4" class="slide tropical-bg">
   <div class="min-h-screen py-14 px-4 sm:px-8">
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] gap-8 sm:gap-10">
-
       <div class="flex md:flex-col gap-3 overflow-x-auto md:overflow-visible order-2 md:order-1">
         <img src="pic1.jpg" alt="" class="rounded-2xl border-4 border-white shadow-xl w-40 md:w-full flex-shrink-0" onerror="this.style.display='none'">
         <img src="pic2.jpg" alt="" class="rounded-2xl border-4 border-white shadow-xl w-40 md:w-full flex-shrink-0" onerror="this.style.display='none'">
         <img src="pic3.jpg" alt="" class="rounded-2xl border-4 border-white shadow-xl w-40 md:w-full flex-shrink-0" onerror="this.style.display='none'">
       </div>
-
       <div class="order-1 md:order-2 text-center md:text-left">
         <span class="sticker sticker-hibiscus mono mb-4">📋 FINAL CONCLUSION</span>
-
         <div class="paper-card paper-card-lime mt-4 mb-6 text-left">
           <span class="sticker sticker-mango mono">OBSERVATION</span>
           <p class="text-sm sm:text-base leading-relaxed mt-3 font-medium">
             Over the course of this academic year, a profound and irreversible reaction occurred. By seamlessly mixing rigid chemistry textbooks with deep life advice, inspiring spiritual stories, and unforgettable classroom humor, the entire molecular structure and energy of our room permanently changed.
           </p>
         </div>
-
         <div class="paper-card paper-card-aqua mb-6 text-left">
           <span class="sticker sticker-coral mono">CONCLUSION</span>
           <p class="text-sm sm:text-base leading-relaxed mt-3 font-medium">
             The reaction is complete, and the chemical bonds formed are entirely permanent. You didn't just teach us chemistry, Sir; you taught us how to navigate the universe. You are completely irreplaceable.
           </p>
         </div>
-
         <div class="paper-card paper-card-hibiscus mb-8 text-center">
           <span class="sticker sticker-lime mono">FINAL YIELD</span>
           <p class="text-xl sm:text-2xl font-black mt-3 text-mango-gradient">
             100% Unconditional Gratitude 💛
           </p>
         </div>
-
         <p class="text-xl sm:text-3xl font-black mb-2 text-sunset-gradient leading-tight">
           Thank you for everything,<br>Mr. Naveen Reddii.
         </p>
         <p class="text-base sm:text-lg font-semibold text-[var(--ink-soft)] mb-8">
           You will be incredibly missed.
         </p>
-
         <p class="mono text-xs sm:text-sm font-bold text-[var(--ink-soft)]">
           — Signed with utmost respect,<br>
           <span class="text-[var(--coral-deep)] text-base">Your Favorite Class</span>
         </p>
       </div>
-
       <div class="flex md:flex-col gap-3 overflow-x-auto md:overflow-visible order-3">
         <img src="pic4.jpg" alt="" class="rounded-2xl border-4 border-white shadow-xl w-40 md:w-full flex-shrink-0" onerror="this.style.display='none'">
         <img src="pic5.jpg" alt="" class="rounded-2xl border-4 border-white shadow-xl w-40 md:w-full flex-shrink-0" onerror="this.style.display='none'">
         <img src="pic6.jpg" alt="" class="rounded-2xl border-4 border-white shadow-xl w-40 md:w-full flex-shrink-0" onerror="this.style.display='none'">
       </div>
-
     </div>
   </div>
 </section>
@@ -534,7 +343,6 @@ function goToSlide(fromId, toId){
     setTimeout(()=>to.classList.remove('fade-in'),650);
   }, 500);
 }
-
 function typeText(el, text, speed=32, cb){
   el.textContent='';
   el.classList.add('caret');
@@ -624,4 +432,205 @@ function typeText(el, text, speed=32, cb){
     } else {
       locked = true;
       statusLine.textContent = '✕ ACCESS DENIED — SEQUENCE RESET.';
-      statusLine.style.color = 'var(--coral-deep
+      statusLine.style.color = 'var(--coral-deep)';
+      document.querySelectorAll('.slot').forEach(s=>s.classList.add('wrong-flash','shake'));
+      setTimeout(()=>{
+        document.querySelectorAll('.slot').forEach(s=>{
+          s.classList.remove('wrong-flash','shake','filled');
+          s.textContent='';
+        });
+        currentSeq = [];
+        statusLine.textContent='';
+        locked = false;
+      }, 650);
+    }
+  }
+
+  typeText(document.getElementById('typeLine'), 'Enter Your Name:', 45);
+})();
+
+/* ========== SLIDE 2 : PERIODIC TABLE ========== */
+const MSG_BANK = [
+  "As stable as a noble gas, always there when it mattered — thank you, Sir, for a year we won't forget.",
+  "Reactive, brilliant, impossible to replace. This class was our favourite compound.",
+  "Every lecture bonded us a little tighter. Grateful for every equation and every story in between.",
+  "You made the periodic table feel like home. We'll carry this class with us always.",
+  "From molarity to life advice — thank you for teaching us more than just chemistry.",
+  "The catalyst for our best year yet. We'll miss you more than words can balance."
+];
+
+const students = [
+  {z:1,sym:'H',mass:'1.008',group:1,period:1,name:'Student 01',msg:MSG_BANK[0]},
+  {z:2,sym:'He',mass:'4.003',group:18,period:1,name:'Student 02',msg:MSG_BANK[1]},
+  {z:3,sym:'Li',mass:'6.94',group:1,period:2,name:'Student 03',msg:MSG_BANK[2]},
+  {z:4,sym:'Be',mass:'9.012',group:2,period:2,name:'Student 04',msg:MSG_BANK[3]},
+  {z:5,sym:'B',mass:'10.81',group:13,period:2,name:'Student 05',msg:MSG_BANK[4]},
+  {z:6,sym:'C',mass:'12.011',group:14,period:2,name:'Student 06',msg:MSG_BANK[5]},
+  {z:7,sym:'N',mass:'14.007',group:15,period:2,name:'Student 07',msg:MSG_BANK[0]},
+  {z:8,sym:'O',mass:'15.999',group:16,period:2,name:'Student 08',msg:MSG_BANK[1]},
+  {z:9,sym:'F',mass:'18.998',group:17,period:2,name:'Student 09',msg:MSG_BANK[2]},
+  {z:10,sym:'Ne',mass:'20.180',group:18,period:2,name:'Student 10',msg:MSG_BANK[3]},
+  {z:11,sym:'Na',mass:'22.990',group:1,period:3,name:'Student 11',msg:MSG_BANK[4]},
+  {z:12,sym:'Mg',mass:'24.305',group:2,period:3,name:'Student 12',msg:MSG_BANK[5]},
+  {z:13,sym:'Al',mass:'26.982',group:13,period:3,name:'Student 13',msg:MSG_BANK[0]},
+  {z:14,sym:'Si',mass:'28.085',group:14,period:3,name:'Student 14',msg:MSG_BANK[1]},
+  {z:15,sym:'P',mass:'30.974',group:15,period:3,name:'Student 15',msg:MSG_BANK[2]},
+  {z:16,sym:'S',mass:'32.06',group:16,period:3,name:'Student 16',msg:MSG_BANK[3]},
+  {z:17,sym:'Cl',mass:'35.45',group:17,period:3,name:'Student 17',msg:MSG_BANK[4]},
+  {z:18,sym:'Ar',mass:'39.948',group:18,period:3,name:'Student 18',msg:MSG_BANK[5]},
+  {z:19,sym:'K',mass:'39.098',group:1,period:4,name:'Kavya',msg:'Sharp, funny, and always first with the right answer. Thank you Sir, for every bit of chemistry (and life) you taught us.'},
+  {z:20,sym:'Ca',mass:'40.078',group:2,period:4,name:'Student 20',msg:MSG_BANK[1]},
+  {z:21,sym:'Sc',mass:'44.956',group:3,period:4,name:'Student 21',msg:MSG_BANK[2]},
+  {z:22,sym:'Ti',mass:'47.867',group:4,period:4,name:'Student 22',msg:MSG_BANK[3]},
+  {z:23,sym:'V',mass:'50.942',group:5,period:4,name:'Student 23',msg:MSG_BANK[4]},
+  {z:24,sym:'Cr',mass:'51.996',group:6,period:4,name:'Student 24',msg:MSG_BANK[5]},
+  {z:25,sym:'Mn',mass:'54.938',group:7,period:4,name:'Student 25',msg:MSG_BANK[0]},
+  {z:26,sym:'Fe',mass:'55.845',group:8,period:4,name:'Firoz',msg:'Steady, dependable, and always up for a good debate about the last question on the worksheet. Thanks for everything, Sir.'},
+  {z:27,sym:'Co',mass:'58.933',group:9,period:4,name:'Student 27',msg:MSG_BANK[2]},
+  {z:28,sym:'Ni',mass:'58.693',group:10,period:4,name:'Student 28',msg:MSG_BANK[3]},
+  {z:29,sym:'Cu',mass:'63.546',group:11,period:4,name:'Student 29',msg:MSG_BANK[4]},
+  {z:30,sym:'Zn',mass:'65.38',group:12,period:4,name:'Student 30',msg:MSG_BANK[5]},
+  {z:31,sym:'Ga',mass:'69.723',group:13,period:4,name:'Student 31',msg:MSG_BANK[0]},
+  {z:32,sym:'Ge',mass:'72.630',group:14,period:4,name:'Student 32',msg:MSG_BANK[1]},
+  {z:33,sym:'As',mass:'74.922',group:15,period:4,name:'Anshuman',msg:'From back-bench questions to front-row curiosity — thank you Sir for making every class one to look forward to.'},
+  {z:34,sym:'Se',mass:'78.971',group:16,period:4,name:'Student 34',msg:MSG_BANK[3]},
+  {z:35,sym:'Br',mass:'79.904',group:17,period:4,name:'Student 35',msg:MSG_BANK[4]},
+  {z:36,sym:'Kr',mass:'83.798',group:18,period:4,name:'Student 36',msg:MSG_BANK[5]},
+  {z:37,sym:'Rb',mass:'85.468',group:1,period:5,name:'Student 37',msg:MSG_BANK[0]},
+  {z:38,sym:'Sr',mass:'87.62',group:2,period:5,name:'Student 38',msg:MSG_BANK[1]},
+  {z:39,sym:'Y',mass:'88.906',group:3,period:5,name:'Student 39',msg:MSG_BANK[2]},
+  {z:40,sym:'Zr',mass:'91.224',group:4,period:5,name:'Student 40',msg:MSG_BANK[3]},
+  {z:41,sym:'Nb',mass:'92.906',group:5,period:5,name:'Student 41',msg:MSG_BANK[4]},
+  {z:42,sym:'Mo',mass:'95.95',group:6,period:5,name:'Student 42',msg:MSG_BANK[5]},
+  {z:43,sym:'Tc',mass:'[98]',group:7,period:5,name:'Student 43',msg:MSG_BANK[0]},
+  {z:44,sym:'Ru',mass:'101.07',group:8,period:5,name:'Student 44',msg:MSG_BANK[1]},
+  {z:45,sym:'Rh',mass:'102.906',group:9,period:5,name:'Student 45',msg:MSG_BANK[2]},
+  {z:46,sym:'Pd',mass:'106.42',group:10,period:5,name:'Student 46',msg:MSG_BANK[3]},
+  {z:47,sym:'Ag',mass:'107.868',group:11,period:5,name:'Student 47',msg:MSG_BANK[4]},
+  {z:48,sym:'Cd',mass:'112.414',group:12,period:5,name:'Student 48',msg:MSG_BANK[5]},
+  {z:49,sym:'In',mass:'114.818',group:13,period:5,name:'Student 49',msg:MSG_BANK[0]},
+  {z:50,sym:'Sn',mass:'118.710',group:14,period:5,name:'Student 50',msg:MSG_BANK[1]},
+];
+
+const TILE_GRADIENTS = {
+  1:'linear-gradient(135deg,#FF6B6B,#E63946)', 2:'linear-gradient(135deg,#FFB84D,#FF8C42)',
+  3:'linear-gradient(135deg,#FFE66D,#F4B400)', 4:'linear-gradient(135deg,#C7F464,#8FBF2A)',
+  5:'linear-gradient(135deg,#4ECDC4,#1A9E96)', 6:'linear-gradient(135deg,#2EC4B6,#0F8A80)',
+  7:'linear-gradient(135deg,#45B7D1,#2E86AB)', 8:'linear-gradient(135deg,#7DD3FC,#3B82F6)',
+  9:'linear-gradient(135deg,#A06CD5,#7B4FBF)', 10:'linear-gradient(135deg,#C084FC,#8B5CF6)',
+  11:'linear-gradient(135deg,#FF4D9D,#C9187A)', 12:'linear-gradient(135deg,#F472B6,#BE185D)',
+  13:'linear-gradient(135deg,#FDBA74,#EA580C)', 14:'linear-gradient(135deg,#FCA5A5,#DC2626)',
+  15:'linear-gradient(135deg,#FDE68A,#CA8A04)', 16:'linear-gradient(135deg,#A7F3D0,#059669)',
+  17:'linear-gradient(135deg,#99F6E4,#0D9488)', 18:'linear-gradient(135deg,#BAE6FD,#0284C7)',
+};
+
+const openedSet = new Set();
+
+function renderPeriodicTable(){
+  const wrap = document.getElementById('ptable');
+  wrap.innerHTML = '';
+  students.forEach(st=>{
+    const tile = document.createElement('div');
+    tile.className = 'student-tile';
+    tile.style.gridColumn = st.group;
+    tile.style.gridRow = st.period;
+    tile.style.background = TILE_GRADIENTS[st.group] || TILE_GRADIENTS[5];
+    tile.dataset.z = st.z;
+    tile.innerHTML = `
+      <span class="num mono">${st.z}</span>
+      <span class="mass mono">${st.mass}</span>
+      <div class="sym mono">${st.sym}</div>
+      <div class="nm">${st.name.split(' — ')[0]}</div>
+    `;
+    tile.addEventListener('click', ()=>openStudent(st, tile));
+    wrap.appendChild(tile);
+  });
+}
+renderPeriodicTable();
+
+const modal = document.getElementById('studentModal');
+function openStudent(st, tile){
+  document.getElementById('mNum').textContent = 'Z: '+st.z;
+  document.getElementById('mMass').textContent = st.mass;
+  document.getElementById('mSym').textContent = st.sym;
+  document.getElementById('mName').textContent = st.name;
+  document.getElementById('mMsg').textContent = st.msg;
+  modal.classList.remove('hidden');
+  if(!openedSet.has(st.z)){
+    openedSet.add(st.z);
+    tile.classList.add('opened');
+    updateProgress();
+  }
+}
+document.getElementById('closeModal').addEventListener('click', ()=>{
+  modal.classList.add('hidden');
+  checkAllOpened();
+});
+modal.addEventListener('click', (e)=>{
+  if(e.target === modal){
+    modal.classList.add('hidden');
+    checkAllOpened();
+  }
+});
+function checkAllOpened(){
+  if(openedSet.size === students.length){
+    document.getElementById('allDoneModal').classList.remove('hidden');
+  }
+}
+function updateProgress(){
+  document.getElementById('progressLine').textContent = `${openedSet.size} / ${students.length} samples logged`;
+}
+const allDoneModal = document.getElementById('allDoneModal');
+allDoneModal.addEventListener('click', (e)=>{
+  if(e.target === allDoneModal) allDoneModal.classList.add('hidden');
+});
+document.getElementById('goSlide3').addEventListener('click', ()=>{
+  allDoneModal.classList.add('hidden');
+  goToSlide('slide2','slide3');
+  startSlide3();
+});
+document.getElementById('devSkip').addEventListener('click', ()=>{
+  goToSlide('slide2','slide3');
+  startSlide3();
+});
+let guardActive = false;
+function initSlide2Guard(){ guardActive = true; }
+window.addEventListener('beforeunload', function(e){
+  if(guardActive){
+    e.preventDefault();
+    e.returnValue = '';
+    return '';
+  }
+});
+
+/* ========== SLIDE 3 ========== */
+let slide3Started = false;
+function startSlide3(){
+  if(slide3Started) return;
+  slide3Started = true;
+  typeText(
+    document.getElementById('warnLine'),
+    '[WARNING]: Critical mass reached. Sir, are you ready to throw the Sodium into the water?',
+    26
+  );
+}
+document.getElementById('dropBtn').addEventListener('click', ()=>{
+  document.getElementById('warnBlock').classList.add('fade-out');
+  setTimeout(()=>{
+    document.getElementById('warnBlock').classList.add('hidden');
+    document.getElementById('warnBlock').classList.remove('fade-out');
+    const vb = document.getElementById('videoBlock');
+    vb.classList.remove('hidden');
+    vb.classList.add('fade-in');
+    setTimeout(()=>{
+      document.getElementById('toSlide4').classList.remove('hidden');
+      document.getElementById('toSlide4').classList.add('fade-in');
+    }, 1400);
+  }, 500);
+});
+document.getElementById('toSlide4').addEventListener('click', ()=>{
+  goToSlide('slide3','slide4');
+});
+</script>
+</body>
+</html>

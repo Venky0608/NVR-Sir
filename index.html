@@ -168,67 +168,92 @@
     box-shadow: 0 2px 0 rgba(0,0,0,0.15);
   }
 
+  /* ===== PERIODIC TABLE — bigger, squarer, more readable ===== */
   .ptable{
     display:grid;
     grid-template-columns:repeat(18, minmax(0,1fr));
-    gap:6px;
-    padding:16px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.4));
+    gap:8px;
+    padding:18px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.45));
     border-radius:24px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.08);
     backdrop-filter: blur(6px);
+    width:100%;
   }
   .student-tile{
     position:relative;
-    border:2px solid rgba(255,255,255,0.6);
-    border-radius:12px;
-    padding:4px 3px;
-    min-height:60px;
+    aspect-ratio:1 / 1;             /* ← square tiles */
+    border:2px solid rgba(255,255,255,0.65);
+    border-radius:14px;
+    padding:5px 5px 4px;
     cursor:pointer;
     transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
     overflow:hidden;
     color:#FFFFFF;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.10);
+    display:flex;
+    flex-direction:column;
   }
-  @media(min-width:640px){.student-tile{min-height:82px; padding:6px 5px;}}
   .student-tile:hover{
-    transform: translateY(-5px) rotate(-2deg) scale(1.06);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+    transform: translateY(-5px) rotate(-2deg) scale(1.08);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.20);
     z-index:5;
   }
   .student-tile.opened::after{
     content:'✓';
-    position:absolute; bottom:3px; right:6px;
-    font-size:.75rem; font-weight:900;
+    position:absolute; bottom:4px; right:5px;
+    font-size:.8rem; font-weight:900;
     color:#fff;
     background:var(--palm);
-    width:16px; height:16px; border-radius:50%;
+    width:18px; height:18px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
-    box-shadow: 0 0 8px rgba(46,196,182,.7);
+    box-shadow: 0 0 8px rgba(46,196,182,.8);
+    line-height:1;
   }
   .student-tile .num{
-    position:absolute; top:3px; left:6px;
-    font-size:.55rem; font-weight:700;
-    opacity:.85;
+    position:absolute; top:5px; left:7px;
+    font-size:.62rem; font-weight:800;
+    opacity:.95;
+    letter-spacing:.02em;
   }
   .student-tile .mass{
-    position:absolute; top:3px; right:6px;
-    font-size:.5rem; opacity:.8;
+    position:absolute; top:5px; right:7px;
+    font-size:.58rem; font-weight:700;
+    opacity:.9;
   }
   .student-tile .sym{
-    font-size:1.15rem; font-weight:900; text-align:center;
-    margin-top:12px;
-  }
-  @media(min-width:640px){
-    .student-tile .sym{font-size:1.55rem; margin-top:18px;}
-    .student-tile .num{font-size:.6rem;}
-    .student-tile .mass{font-size:.55rem;}
+    font-size:1.35rem; font-weight:900; text-align:center;
+    margin-top:18px;
+    line-height:1;
+    letter-spacing:.02em;
+    text-shadow: 0 2px 3px rgba(0,0,0,0.25);
   }
   .student-tile .nm{
-    font-size:.5rem; text-align:center; font-weight:600;
+    font-size:.6rem; text-align:center; font-weight:700;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    padding:0 3px; opacity:.9;
+    padding:0 3px; opacity:.95;
+    margin-top:auto;
+    margin-bottom:2px;
+    line-height:1.1;
+  }
+
+  /* Bigger on wider screens */
+  @media(min-width:640px){
+    .ptable{gap:9px; padding:20px;}
+    .student-tile{border-radius:16px; padding:6px 6px 5px;}
+    .student-tile .sym{font-size:1.75rem; margin-top:22px;}
+    .student-tile .num{font-size:.72rem; top:6px; left:8px;}
+    .student-tile .mass{font-size:.66rem; top:6px; right:8px;}
+    .student-tile .nm{font-size:.68rem;}
+    .student-tile.opened::after{width:20px; height:20px; font-size:.85rem;}
+  }
+  @media(min-width:1024px){
+    .ptable{gap:10px; padding:22px;}
+    .student-tile .sym{font-size:2rem; margin-top:26px;}
+    .student-tile .num{font-size:.8rem;}
+    .student-tile .mass{font-size:.72rem;}
+    .student-tile .nm{font-size:.74rem;}
   }
 
   .modal-backdrop{
@@ -349,7 +374,7 @@
     skip
   </button>
 
-  <div class="max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
+  <div class="max-w-7xl mx-auto px-3 sm:px-6 py-10 sm:py-14">
 
     <div class="mb-8 text-center sm:text-left">
       <span class="sticker sticker-aqua mono mb-3">📋 LAB REPORT · EXPERIMENT #001</span>
@@ -599,223 +624,4 @@ function typeText(el, text, speed=32, cb){
     } else {
       locked = true;
       statusLine.textContent = '✕ ACCESS DENIED — SEQUENCE RESET.';
-      statusLine.style.color = 'var(--coral-deep)';
-      document.querySelectorAll('.slot').forEach(s=>s.classList.add('wrong-flash','shake'));
-      setTimeout(()=>{
-        document.querySelectorAll('.slot').forEach(s=>{
-          s.classList.remove('wrong-flash','shake','filled');
-          s.textContent='';
-        });
-        currentSeq = [];
-        statusLine.textContent='';
-        locked = false;
-      }, 650);
-    }
-  }
-
-  typeText(document.getElementById('typeLine'), 'Enter Your Name:', 45);
-})();
-
-/* ========== SLIDE 2 : PERIODIC TABLE ========== */
-const MSG_BANK = [
-  "As stable as a noble gas, always there when it mattered — thank you, Sir, for a year we won't forget.",
-  "Reactive, brilliant, impossible to replace. This class was our favourite compound.",
-  "Every lecture bonded us a little tighter. Grateful for every equation and every story in between.",
-  "You made the periodic table feel like home. We'll carry this class with us always.",
-  "From molarity to life advice — thank you for teaching us more than just chemistry.",
-  "The catalyst for our best year yet. We'll miss you more than words can balance."
-];
-
-const students = [
-  {z:1,sym:'H',mass:'1.008',group:1,period:1,name:'Student 01',msg:MSG_BANK[0]},
-  {z:2,sym:'He',mass:'4.003',group:18,period:1,name:'Student 02',msg:MSG_BANK[1]},
-  {z:3,sym:'Li',mass:'6.94',group:1,period:2,name:'Student 03',msg:MSG_BANK[2]},
-  {z:4,sym:'Be',mass:'9.012',group:2,period:2,name:'Student 04',msg:MSG_BANK[3]},
-  {z:5,sym:'B',mass:'10.81',group:13,period:2,name:'Student 05',msg:MSG_BANK[4]},
-  {z:6,sym:'C',mass:'12.011',group:14,period:2,name:'Student 06',msg:MSG_BANK[5]},
-  {z:7,sym:'N',mass:'14.007',group:15,period:2,name:'Student 07',msg:MSG_BANK[0]},
-  {z:8,sym:'O',mass:'15.999',group:16,period:2,name:'Student 08',msg:MSG_BANK[1]},
-  {z:9,sym:'F',mass:'18.998',group:17,period:2,name:'Student 09',msg:MSG_BANK[2]},
-  {z:10,sym:'Ne',mass:'20.180',group:18,period:2,name:'Student 10',msg:MSG_BANK[3]},
-  {z:11,sym:'Na',mass:'22.990',group:1,period:3,name:'Student 11',msg:MSG_BANK[4]},
-  {z:12,sym:'Mg',mass:'24.305',group:2,period:3,name:'Student 12',msg:MSG_BANK[5]},
-  {z:13,sym:'Al',mass:'26.982',group:13,period:3,name:'Student 13',msg:MSG_BANK[0]},
-  {z:14,sym:'Si',mass:'28.085',group:14,period:3,name:'Student 14',msg:MSG_BANK[1]},
-  {z:15,sym:'P',mass:'30.974',group:15,period:3,name:'Student 15',msg:MSG_BANK[2]},
-  {z:16,sym:'S',mass:'32.06',group:16,period:3,name:'Student 16',msg:MSG_BANK[3]},
-  {z:17,sym:'Cl',mass:'35.45',group:17,period:3,name:'Student 17',msg:MSG_BANK[4]},
-  {z:18,sym:'Ar',mass:'39.948',group:18,period:3,name:'Student 18',msg:MSG_BANK[5]},
-  {z:19,sym:'K',mass:'39.098',group:1,period:4,name:'Kavya',msg:'Sharp, funny, and always first with the right answer. Thank you Sir, for every bit of chemistry (and life) you taught us.'},
-  {z:20,sym:'Ca',mass:'40.078',group:2,period:4,name:'Student 20',msg:MSG_BANK[1]},
-  {z:21,sym:'Sc',mass:'44.956',group:3,period:4,name:'Student 21',msg:MSG_BANK[2]},
-  {z:22,sym:'Ti',mass:'47.867',group:4,period:4,name:'Student 22',msg:MSG_BANK[3]},
-  {z:23,sym:'V',mass:'50.942',group:5,period:4,name:'Student 23',msg:MSG_BANK[4]},
-  {z:24,sym:'Cr',mass:'51.996',group:6,period:4,name:'Student 24',msg:MSG_BANK[5]},
-  {z:25,sym:'Mn',mass:'54.938',group:7,period:4,name:'Student 25',msg:MSG_BANK[0]},
-  {z:26,sym:'Fe',mass:'55.845',group:8,period:4,name:'Firoz',msg:'Steady, dependable, and always up for a good debate about the last question on the worksheet. Thanks for everything, Sir.'},
-  {z:27,sym:'Co',mass:'58.933',group:9,period:4,name:'Student 27',msg:MSG_BANK[2]},
-  {z:28,sym:'Ni',mass:'58.693',group:10,period:4,name:'Student 28',msg:MSG_BANK[3]},
-  {z:29,sym:'Cu',mass:'63.546',group:11,period:4,name:'Student 29',msg:MSG_BANK[4]},
-  {z:30,sym:'Zn',mass:'65.38',group:12,period:4,name:'Student 30',msg:MSG_BANK[5]},
-  {z:31,sym:'Ga',mass:'69.723',group:13,period:4,name:'Student 31',msg:MSG_BANK[0]},
-  {z:32,sym:'Ge',mass:'72.630',group:14,period:4,name:'Student 32',msg:MSG_BANK[1]},
-  {z:33,sym:'As',mass:'74.922',group:15,period:4,name:'Anshuman',msg:'From back-bench questions to front-row curiosity — thank you Sir for making every class one to look forward to.'},
-  {z:34,sym:'Se',mass:'78.971',group:16,period:4,name:'Student 34',msg:MSG_BANK[3]},
-  {z:35,sym:'Br',mass:'79.904',group:17,period:4,name:'Student 35',msg:MSG_BANK[4]},
-  {z:36,sym:'Kr',mass:'83.798',group:18,period:4,name:'Student 36',msg:MSG_BANK[5]},
-  {z:37,sym:'Rb',mass:'85.468',group:1,period:5,name:'Student 37',msg:MSG_BANK[0]},
-  {z:38,sym:'Sr',mass:'87.62',group:2,period:5,name:'Student 38',msg:MSG_BANK[1]},
-  {z:39,sym:'Y',mass:'88.906',group:3,period:5,name:'Student 39',msg:MSG_BANK[2]},
-  {z:40,sym:'Zr',mass:'91.224',group:4,period:5,name:'Student 40',msg:MSG_BANK[3]},
-  {z:41,sym:'Nb',mass:'92.906',group:5,period:5,name:'Student 41',msg:MSG_BANK[4]},
-  {z:42,sym:'Mo',mass:'95.95',group:6,period:5,name:'Student 42',msg:MSG_BANK[5]},
-  {z:43,sym:'Tc',mass:'[98]',group:7,period:5,name:'Student 43',msg:MSG_BANK[0]},
-  {z:44,sym:'Ru',mass:'101.07',group:8,period:5,name:'Student 44',msg:MSG_BANK[1]},
-  {z:45,sym:'Rh',mass:'102.906',group:9,period:5,name:'Student 45',msg:MSG_BANK[2]},
-  {z:46,sym:'Pd',mass:'106.42',group:10,period:5,name:'Student 46',msg:MSG_BANK[3]},
-  {z:47,sym:'Ag',mass:'107.868',group:11,period:5,name:'Student 47',msg:MSG_BANK[4]},
-  {z:48,sym:'Cd',mass:'112.414',group:12,period:5,name:'Student 48',msg:MSG_BANK[5]},
-  {z:49,sym:'In',mass:'114.818',group:13,period:5,name:'Student 49',msg:MSG_BANK[0]},
-  {z:50,sym:'Sn',mass:'118.710',group:14,period:5,name:'Student 50',msg:MSG_BANK[1]},
-];
-
-const TILE_GRADIENTS = {
-  1:  'linear-gradient(135deg,#FF6B6B,#E63946)',
-  2:  'linear-gradient(135deg,#FFB84D,#FF8C42)',
-  3:  'linear-gradient(135deg,#FFE66D,#F4B400)',
-  4:  'linear-gradient(135deg,#C7F464,#8FBF2A)',
-  5:  'linear-gradient(135deg,#4ECDC4,#1A9E96)',
-  6:  'linear-gradient(135deg,#2EC4B6,#0F8A80)',
-  7:  'linear-gradient(135deg,#45B7D1,#2E86AB)',
-  8:  'linear-gradient(135deg,#7DD3FC,#3B82F6)',
-  9:  'linear-gradient(135deg,#A06CD5,#7B4FBF)',
-  10: 'linear-gradient(135deg,#C084FC,#8B5CF6)',
-  11: 'linear-gradient(135deg,#FF4D9D,#C9187A)',
-  12: 'linear-gradient(135deg,#F472B6,#BE185D)',
-  13: 'linear-gradient(135deg,#FDBA74,#EA580C)',
-  14: 'linear-gradient(135deg,#FCA5A5,#DC2626)',
-  15: 'linear-gradient(135deg,#FDE68A,#CA8A04)',
-  16: 'linear-gradient(135deg,#A7F3D0,#059669)',
-  17: 'linear-gradient(135deg,#99F6E4,#0D9488)',
-  18: 'linear-gradient(135deg,#BAE6FD,#0284C7)',
-};
-
-const openedSet = new Set();
-
-function renderPeriodicTable(){
-  const wrap = document.getElementById('ptable');
-  wrap.innerHTML = '';
-  students.forEach(st=>{
-    const tile = document.createElement('div');
-    tile.className = 'student-tile';
-    tile.style.gridColumn = st.group;
-    tile.style.gridRow = st.period;
-    tile.style.background = TILE_GRADIENTS[st.group] || TILE_GRADIENTS[5];
-    tile.dataset.z = st.z;
-    tile.innerHTML = `
-      <span class="num mono">${st.z}</span>
-      <span class="mass mono">${st.mass}</span>
-      <div class="sym mono">${st.sym}</div>
-      <div class="nm">${st.name.split(' — ')[0]}</div>
-    `;
-    tile.addEventListener('click', ()=>openStudent(st, tile));
-    wrap.appendChild(tile);
-  });
-}
-renderPeriodicTable();
-
-const modal = document.getElementById('studentModal');
-function openStudent(st, tile){
-  document.getElementById('mNum').textContent = 'Z: '+st.z;
-  document.getElementById('mMass').textContent = st.mass;
-  document.getElementById('mSym').textContent = st.sym;
-  document.getElementById('mName').textContent = st.name;
-  document.getElementById('mMsg').textContent = st.msg;
-  modal.classList.remove('hidden');
-
-  if(!openedSet.has(st.z)){
-    openedSet.add(st.z);
-    tile.classList.add('opened');
-    updateProgress();
-  }
-}
-
-document.getElementById('closeModal').addEventListener('click', ()=>{
-  modal.classList.add('hidden');
-  checkAllOpened();
-});
-
-modal.addEventListener('click', (e)=>{
-  if(e.target === modal){
-    modal.classList.add('hidden');
-    checkAllOpened();
-  }
-});
-
-function checkAllOpened(){
-  if(openedSet.size === students.length){
-    document.getElementById('allDoneModal').classList.remove('hidden');
-  }
-}
-
-function updateProgress(){
-  document.getElementById('progressLine').textContent = `${openedSet.size} / ${students.length} samples logged`;
-}
-
-const allDoneModal = document.getElementById('allDoneModal');
-allDoneModal.addEventListener('click', (e)=>{
-  if(e.target === allDoneModal) allDoneModal.classList.add('hidden');
-});
-
-document.getElementById('goSlide3').addEventListener('click', ()=>{
-  allDoneModal.classList.add('hidden');
-  goToSlide('slide2','slide3');
-  startSlide3();
-});
-
-document.getElementById('devSkip').addEventListener('click', ()=>{
-  goToSlide('slide2','slide3');
-  startSlide3();
-});
-
-let guardActive = false;
-function initSlide2Guard(){ guardActive = true; }
-window.addEventListener('beforeunload', function(e){
-  if(guardActive){
-    e.preventDefault();
-    e.returnValue = '';
-    return '';
-  }
-});
-
-/* ========== SLIDE 3 ========== */
-let slide3Started = false;
-function startSlide3(){
-  if(slide3Started) return;
-  slide3Started = true;
-  typeText(
-    document.getElementById('warnLine'),
-    '[WARNING]: Critical mass reached. Sir, are you ready to throw the Sodium into the water?',
-    26
-  );
-}
-document.getElementById('dropBtn').addEventListener('click', ()=>{
-  document.getElementById('warnBlock').classList.add('fade-out');
-  setTimeout(()=>{
-    document.getElementById('warnBlock').classList.add('hidden');
-    document.getElementById('warnBlock').classList.remove('fade-out');
-    const vb = document.getElementById('videoBlock');
-    vb.classList.remove('hidden');
-    vb.classList.add('fade-in');
-    setTimeout(()=>{
-      document.getElementById('toSlide4').classList.remove('hidden');
-      document.getElementById('toSlide4').classList.add('fade-in');
-    }, 1400);
-  }, 500);
-});
-document.getElementById('toSlide4').addEventListener('click', ()=>{
-  goToSlide('slide3','slide4');
-});
-</script>
-</body>
-</html>
+      statusLine.style.color = 'var(--coral-deep

@@ -88,98 +88,91 @@
     box-shadow:0 9px 0 rgba(0,0,0,0.15),0 14px 24px rgba(0,0,0,0.15);}
   .elt-tile:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,0.15);}
 
-    .ptable{
+  /* ===== PERIODIC TABLE — clean, no horizontal scroll, mass at top ===== */
+  .ptable{
     display:grid;
-    grid-template-columns:repeat(18, minmax(44px, 1fr));
-    gap:6px;
+    grid-template-columns:repeat(18, minmax(0,1fr));
+    gap:5px;
     padding:14px;
     background:linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.45));
     border-radius:24px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.08);
     backdrop-filter: blur(6px);
     width:100%;
-    overflow-x:auto;          /* allows horizontal scroll on tiny screens instead of squishing */
-    -webkit-overflow-scrolling:touch;
   }
   .student-tile{
     position:relative;
     aspect-ratio:1 / 1;
-    min-width:44px;
-    min-height:44px;
-    border:2px solid rgba(255,255,255,0.7);
+    border:2px solid rgba(255,255,255,0.65);
     border-radius:10px;
+    padding:3px;
     cursor:pointer;
     transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
     overflow:hidden;
     color:#FFFFFF;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.10);
     display:flex;
     flex-direction:column;
-    justify-content:flex-end;
-    padding:0 3px 3px;
+    align-items:center;
+    justify-content:center;
   }
   .student-tile:hover{
-    transform: translateY(-4px) scale(1.08);
-    box-shadow: 0 10px 22px rgba(0,0,0,0.22);
+    transform: translateY(-5px) rotate(-2deg) scale(1.08);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.20);
     z-index:5;
   }
   .student-tile.opened::after{
     content:'✓';
-    position:absolute; top:3px; right:3px;
-    font-size:.65rem; font-weight:900;
+    position:absolute; bottom:2px; right:3px;
+    font-size:.6rem; font-weight:900;
     color:#fff;
     background:var(--palm);
-    width:15px; height:15px; border-radius:50%;
+    width:14px; height:14px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
     box-shadow: 0 0 6px rgba(46,196,182,.8);
     line-height:1;
   }
-  .student-tile .num{
-    position:absolute; top:3px; left:4px;
-    font-size:.55rem; font-weight:800;
+  .student-tile .mass{
+    position:absolute; top:2px; left:0; right:0;
+    text-align:center;
+    font-size:.5rem; font-weight:700;
     opacity:.95;
     line-height:1;
-  }
-  .student-tile .mass{
-    position:absolute; top:3px; left:50%;
-    transform:translateX(-50%);
-    font-size:.5rem; font-weight:700;
-    opacity:.9;
-    line-height:1;
-    white-space:nowrap;
+    letter-spacing:.01em;
+    font-family:'JetBrains Mono', monospace;
   }
   .student-tile .sym{
-    font-size:1.2rem; font-weight:900; text-align:center;
+    font-size:1.15rem; font-weight:900; text-align:center;
     line-height:1;
     letter-spacing:.01em;
     text-shadow: 0 2px 3px rgba(0,0,0,0.3);
-    margin:auto 0 0 0;
+    margin-top:8px;
   }
   .student-tile .nm{
-    font-size:.5rem; text-align:center; font-weight:700;
+    font-size:.48rem; text-align:center; font-weight:700;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    padding:0; opacity:.95;
+    padding:0 2px; opacity:.95;
     line-height:1.1;
-    margin-bottom:1px;
+    max-width:100%;
+    margin-top:2px;
   }
 
   @media(min-width:640px){
-    .ptable{gap:8px; padding:18px; grid-template-columns:repeat(18, minmax(56px, 1fr));}
-    .student-tile{border-radius:12px; min-width:56px; min-height:56px;}
-    .student-tile .sym{font-size:1.6rem;}
-    .student-tile .num{font-size:.68rem; top:5px; left:6px;}
-    .student-tile .mass{font-size:.6rem; top:5px;}
-    .student-tile .nm{font-size:.65rem;}
-    .student-tile.opened::after{width:18px; height:18px; font-size:.75rem;}
+    .ptable{gap:6px; padding:16px;}
+    .student-tile{border-radius:12px; padding:4px;}
+    .student-tile .sym{font-size:1.5rem; margin-top:10px;}
+    .student-tile .mass{font-size:.62rem;}
+    .student-tile .nm{font-size:.6rem;}
+    .student-tile.opened::after{width:16px; height:16px; font-size:.7rem;}
   }
   @media(min-width:1024px){
-    .ptable{gap:9px; padding:20px; grid-template-columns:repeat(18, minmax(64px, 1fr));}
-    .student-tile{border-radius:14px; min-width:64px; min-height:64px;}
-    .student-tile .sym{font-size:1.85rem;}
-    .student-tile .num{font-size:.75rem;}
-    .student-tile .mass{font-size:.68rem;}
-    .student-tile .nm{font-size:.72rem;}
+    .ptable{gap:7px; padding:18px;}
+    .student-tile{border-radius:14px; padding:5px;}
+    .student-tile .sym{font-size:1.75rem; margin-top:12px;}
+    .student-tile .mass{font-size:.7rem;}
+    .student-tile .nm{font-size:.68rem;}
+    .student-tile.opened::after{width:18px; height:18px; font-size:.75rem;}
   }
 
   .modal-backdrop{position:fixed;inset:0;background:rgba(26,26,46,.6);backdrop-filter:blur(10px);
@@ -253,7 +246,7 @@
     class="fixed bottom-2 right-2 z-40 opacity-10 hover:opacity-70 transition-opacity text-[10px] mono font-bold text-[var(--ink-soft)] border-2 border-[var(--ink-soft)] rounded-full px-3 py-1 bg-[var(--paper)]">
     skip
   </button>
-  <div class="max-w-7xl mx-auto px-3 sm:px-6 py-10 sm:py-14">
+  <div class="max-w-6xl mx-auto px-3 sm:px-6 py-10 sm:py-14">
     <div class="mb-8 text-center sm:text-left">
       <span class="sticker sticker-aqua mono mb-3">📋 LAB REPORT · EXPERIMENT #001</span>
       <h2 class="text-2xl sm:text-4xl font-black mb-2 text-ocean-gradient leading-tight">
@@ -502,7 +495,11 @@ function typeText(el, text, speed=32, cb){
   typeText(document.getElementById('typeLine'), 'Enter Your Name:', 45);
 })();
 
-/* ========== SLIDE 2 : PERIODIC TABLE ========== */
+/* ========== SLIDE 2 : PERIODIC TABLE ==========
+   EDIT names / messages below.
+   The `mass` field is the number shown on top of each tile.
+   Change it to any string you want (e.g. "1.008", "~56", "4.0").
+   ============================================== */
 const MSG_BANK = [
   "As stable as a noble gas, always there when it mattered — thank you, Sir, for a year we won't forget.",
   "Reactive, brilliant, impossible to replace. This class was our favourite compound.",
@@ -513,56 +510,56 @@ const MSG_BANK = [
 ];
 
 const students = [
-  {z:1,sym:'H',mass:'1.008',group:1,period:1,name:'Student 01',msg:MSG_BANK[0]},
-  {z:2,sym:'He',mass:'4.003',group:18,period:1,name:'Student 02',msg:MSG_BANK[1]},
-  {z:3,sym:'Li',mass:'6.94',group:1,period:2,name:'Student 03',msg:MSG_BANK[2]},
-  {z:4,sym:'Be',mass:'9.012',group:2,period:2,name:'Student 04',msg:MSG_BANK[3]},
-  {z:5,sym:'B',mass:'10.81',group:13,period:2,name:'Student 05',msg:MSG_BANK[4]},
-  {z:6,sym:'C',mass:'12.011',group:14,period:2,name:'Student 06',msg:MSG_BANK[5]},
-  {z:7,sym:'N',mass:'14.007',group:15,period:2,name:'Student 07',msg:MSG_BANK[0]},
-  {z:8,sym:'O',mass:'15.999',group:16,period:2,name:'Student 08',msg:MSG_BANK[1]},
-  {z:9,sym:'F',mass:'18.998',group:17,period:2,name:'Student 09',msg:MSG_BANK[2]},
-  {z:10,sym:'Ne',mass:'20.180',group:18,period:2,name:'Student 10',msg:MSG_BANK[3]},
-  {z:11,sym:'Na',mass:'22.990',group:1,period:3,name:'Student 11',msg:MSG_BANK[4]},
-  {z:12,sym:'Mg',mass:'24.305',group:2,period:3,name:'Student 12',msg:MSG_BANK[5]},
-  {z:13,sym:'Al',mass:'26.982',group:13,period:3,name:'Student 13',msg:MSG_BANK[0]},
-  {z:14,sym:'Si',mass:'28.085',group:14,period:3,name:'Student 14',msg:MSG_BANK[1]},
-  {z:15,sym:'P',mass:'30.974',group:15,period:3,name:'Student 15',msg:MSG_BANK[2]},
-  {z:16,sym:'S',mass:'32.06',group:16,period:3,name:'Student 16',msg:MSG_BANK[3]},
-  {z:17,sym:'Cl',mass:'35.45',group:17,period:3,name:'Student 17',msg:MSG_BANK[4]},
-  {z:18,sym:'Ar',mass:'39.948',group:18,period:3,name:'Student 18',msg:MSG_BANK[5]},
-  {z:19,sym:'K',mass:'39.098',group:1,period:4,name:'Kavya',msg:'Sharp, funny, and always first with the right answer. Thank you Sir, for every bit of chemistry (and life) you taught us.'},
-  {z:20,sym:'Ca',mass:'40.078',group:2,period:4,name:'Student 20',msg:MSG_BANK[1]},
-  {z:21,sym:'Sc',mass:'44.956',group:3,period:4,name:'Student 21',msg:MSG_BANK[2]},
-  {z:22,sym:'Ti',mass:'47.867',group:4,period:4,name:'Student 22',msg:MSG_BANK[3]},
-  {z:23,sym:'V',mass:'50.942',group:5,period:4,name:'Student 23',msg:MSG_BANK[4]},
-  {z:24,sym:'Cr',mass:'51.996',group:6,period:4,name:'Student 24',msg:MSG_BANK[5]},
-  {z:25,sym:'Mn',mass:'54.938',group:7,period:4,name:'Student 25',msg:MSG_BANK[0]},
-  {z:26,sym:'Fe',mass:'55.845',group:8,period:4,name:'Firoz',msg:'Steady, dependable, and always up for a good debate about the last question on the worksheet. Thanks for everything, Sir.'},
-  {z:27,sym:'Co',mass:'58.933',group:9,period:4,name:'Student 27',msg:MSG_BANK[2]},
-  {z:28,sym:'Ni',mass:'58.693',group:10,period:4,name:'Student 28',msg:MSG_BANK[3]},
-  {z:29,sym:'Cu',mass:'63.546',group:11,period:4,name:'Student 29',msg:MSG_BANK[4]},
-  {z:30,sym:'Zn',mass:'65.38',group:12,period:4,name:'Student 30',msg:MSG_BANK[5]},
-  {z:31,sym:'Ga',mass:'69.723',group:13,period:4,name:'Student 31',msg:MSG_BANK[0]},
-  {z:32,sym:'Ge',mass:'72.630',group:14,period:4,name:'Student 32',msg:MSG_BANK[1]},
-  {z:33,sym:'As',mass:'74.922',group:15,period:4,name:'Anshuman',msg:'From back-bench questions to front-row curiosity — thank you Sir for making every class one to look forward to.'},
-  {z:34,sym:'Se',mass:'78.971',group:16,period:4,name:'Student 34',msg:MSG_BANK[3]},
-  {z:35,sym:'Br',mass:'79.904',group:17,period:4,name:'Student 35',msg:MSG_BANK[4]},
-  {z:36,sym:'Kr',mass:'83.798',group:18,period:4,name:'Student 36',msg:MSG_BANK[5]},
-  {z:37,sym:'Rb',mass:'85.468',group:1,period:5,name:'Student 37',msg:MSG_BANK[0]},
-  {z:38,sym:'Sr',mass:'87.62',group:2,period:5,name:'Student 38',msg:MSG_BANK[1]},
-  {z:39,sym:'Y',mass:'88.906',group:3,period:5,name:'Student 39',msg:MSG_BANK[2]},
-  {z:40,sym:'Zr',mass:'91.224',group:4,period:5,name:'Student 40',msg:MSG_BANK[3]},
-  {z:41,sym:'Nb',mass:'92.906',group:5,period:5,name:'Student 41',msg:MSG_BANK[4]},
-  {z:42,sym:'Mo',mass:'95.95',group:6,period:5,name:'Student 42',msg:MSG_BANK[5]},
-  {z:43,sym:'Tc',mass:'[98]',group:7,period:5,name:'Student 43',msg:MSG_BANK[0]},
-  {z:44,sym:'Ru',mass:'101.07',group:8,period:5,name:'Student 44',msg:MSG_BANK[1]},
-  {z:45,sym:'Rh',mass:'102.906',group:9,period:5,name:'Student 45',msg:MSG_BANK[2]},
-  {z:46,sym:'Pd',mass:'106.42',group:10,period:5,name:'Student 46',msg:MSG_BANK[3]},
-  {z:47,sym:'Ag',mass:'107.868',group:11,period:5,name:'Student 47',msg:MSG_BANK[4]},
-  {z:48,sym:'Cd',mass:'112.414',group:12,period:5,name:'Student 48',msg:MSG_BANK[5]},
-  {z:49,sym:'In',mass:'114.818',group:13,period:5,name:'Student 49',msg:MSG_BANK[0]},
-  {z:50,sym:'Sn',mass:'118.710',group:14,period:5,name:'Student 50',msg:MSG_BANK[1]},
+  {z:1, sym:'H',  mass:'1.008', group:1,  period:1, name:'Student 01', msg:MSG_BANK[0]},
+  {z:2, sym:'He', mass:'4.003', group:18, period:1, name:'Student 02', msg:MSG_BANK[1]},
+  {z:3, sym:'Li', mass:'6.94',  group:1,  period:2, name:'Student 03', msg:MSG_BANK[2]},
+  {z:4, sym:'Be', mass:'9.012', group:2,  period:2, name:'Student 04', msg:MSG_BANK[3]},
+  {z:5, sym:'B',  mass:'10.81', group:13, period:2, name:'Student 05', msg:MSG_BANK[4]},
+  {z:6, sym:'C',  mass:'12.011',group:14, period:2, name:'Student 06', msg:MSG_BANK[5]},
+  {z:7, sym:'N',  mass:'14.007',group:15, period:2, name:'Student 07', msg:MSG_BANK[0]},
+  {z:8, sym:'O',  mass:'15.999',group:16, period:2, name:'Student 08', msg:MSG_BANK[1]},
+  {z:9, sym:'F',  mass:'18.998',group:17, period:2, name:'Student 09', msg:MSG_BANK[2]},
+  {z:10,sym:'Ne', mass:'20.180',group:18, period:2, name:'Student 10', msg:MSG_BANK[3]},
+  {z:11,sym:'Na', mass:'22.990',group:1,  period:3, name:'Student 11', msg:MSG_BANK[4]},
+  {z:12,sym:'Mg', mass:'24.305',group:2,  period:3, name:'Student 12', msg:MSG_BANK[5]},
+  {z:13,sym:'Al', mass:'26.982',group:13, period:3, name:'Student 13', msg:MSG_BANK[0]},
+  {z:14,sym:'Si', mass:'28.085',group:14, period:3, name:'Student 14', msg:MSG_BANK[1]},
+  {z:15,sym:'P',  mass:'30.974',group:15, period:3, name:'Student 15', msg:MSG_BANK[2]},
+  {z:16,sym:'S',  mass:'32.06', group:16, period:3, name:'Student 16', msg:MSG_BANK[3]},
+  {z:17,sym:'Cl', mass:'35.45', group:17, period:3, name:'Student 17', msg:MSG_BANK[4]},
+  {z:18,sym:'Ar', mass:'39.948',group:18, period:3, name:'Student 18', msg:MSG_BANK[5]},
+  {z:19,sym:'K',  mass:'39.098',group:1,  period:4, name:'Kavya', msg:'Sharp, funny, and always first with the right answer. Thank you Sir, for every bit of chemistry (and life) you taught us.'},
+  {z:20,sym:'Ca', mass:'40.078',group:2,  period:4, name:'Student 20', msg:MSG_BANK[1]},
+  {z:21,sym:'Sc', mass:'44.956',group:3,  period:4, name:'Student 21', msg:MSG_BANK[2]},
+  {z:22,sym:'Ti', mass:'47.867',group:4,  period:4, name:'Student 22', msg:MSG_BANK[3]},
+  {z:23,sym:'V',  mass:'50.942',group:5,  period:4, name:'Student 23', msg:MSG_BANK[4]},
+  {z:24,sym:'Cr', mass:'51.996',group:6,  period:4, name:'Student 24', msg:MSG_BANK[5]},
+  {z:25,sym:'Mn', mass:'54.938',group:7,  period:4, name:'Student 25', msg:MSG_BANK[0]},
+  {z:26,sym:'Fe', mass:'55.845',group:8,  period:4, name:'Firoz', msg:'Steady, dependable, and always up for a good debate about the last question on the worksheet. Thanks for everything, Sir.'},
+  {z:27,sym:'Co', mass:'58.933',group:9,  period:4, name:'Student 27', msg:MSG_BANK[2]},
+  {z:28,sym:'Ni', mass:'58.693',group:10, period:4, name:'Student 28', msg:MSG_BANK[3]},
+  {z:29,sym:'Cu', mass:'63.546',group:11, period:4, name:'Student 29', msg:MSG_BANK[4]},
+  {z:30,sym:'Zn', mass:'65.38', group:12, period:4, name:'Student 30', msg:MSG_BANK[5]},
+  {z:31,sym:'Ga', mass:'69.723',group:13, period:4, name:'Student 31', msg:MSG_BANK[0]},
+  {z:32,sym:'Ge', mass:'72.630',group:14, period:4, name:'Student 32', msg:MSG_BANK[1]},
+  {z:33,sym:'As', mass:'74.922',group:15, period:4, name:'Anshuman', msg:'From back-bench questions to front-row curiosity — thank you Sir for making every class one to look forward to.'},
+  {z:34,sym:'Se', mass:'78.971',group:16, period:4, name:'Student 34', msg:MSG_BANK[3]},
+  {z:35,sym:'Br', mass:'79.904',group:17, period:4, name:'Student 35', msg:MSG_BANK[4]},
+  {z:36,sym:'Kr', mass:'83.798',group:18, period:4, name:'Student 36', msg:MSG_BANK[5]},
+  {z:37,sym:'Rb', mass:'85.468',group:1,  period:5, name:'Student 37', msg:MSG_BANK[0]},
+  {z:38,sym:'Sr', mass:'87.62', group:2,  period:5, name:'Student 38', msg:MSG_BANK[1]},
+  {z:39,sym:'Y',  mass:'88.906',group:3,  period:5, name:'Student 39', msg:MSG_BANK[2]},
+  {z:40,sym:'Zr', mass:'91.224',group:4,  period:5, name:'Student 40', msg:MSG_BANK[3]},
+  {z:41,sym:'Nb', mass:'92.906',group:5,  period:5, name:'Student 41', msg:MSG_BANK[4]},
+  {z:42,sym:'Mo', mass:'95.95', group:6,  period:5, name:'Student 42', msg:MSG_BANK[5]},
+  {z:43,sym:'Tc', mass:'[98]',  group:7,  period:5, name:'Student 43', msg:MSG_BANK[0]},
+  {z:44,sym:'Ru', mass:'101.07',group:8,  period:5, name:'Student 44', msg:MSG_BANK[1]},
+  {z:45,sym:'Rh', mass:'102.906',group:9, period:5, name:'Student 45', msg:MSG_BANK[2]},
+  {z:46,sym:'Pd', mass:'106.42',group:10, period:5, name:'Student 46', msg:MSG_BANK[3]},
+  {z:47,sym:'Ag', mass:'107.868',group:11,period:5, name:'Student 47', msg:MSG_BANK[4]},
+  {z:48,sym:'Cd', mass:'112.414',group:12,period:5, name:'Student 48', msg:MSG_BANK[5]},
+  {z:49,sym:'In', mass:'114.818',group:13,period:5, name:'Student 49', msg:MSG_BANK[0]},
+  {z:50,sym:'Sn', mass:'118.710',group:14,period:5, name:'Student 50', msg:MSG_BANK[1]},
 ];
 
 const TILE_GRADIENTS = {
@@ -590,7 +587,6 @@ function renderPeriodicTable(){
     tile.style.background = TILE_GRADIENTS[st.group] || TILE_GRADIENTS[5];
     tile.dataset.z = st.z;
     tile.innerHTML = `
-      <span class="num mono">${st.z}</span>
       <span class="mass mono">${st.mass}</span>
       <div class="sym mono">${st.sym}</div>
       <div class="nm">${st.name.split(' — ')[0]}</div>

@@ -88,12 +88,12 @@
     box-shadow:0 9px 0 rgba(0,0,0,0.15),0 14px 24px rgba(0,0,0,0.15);}
   .elt-tile:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,0.15);}
 
-  /* ===== PERIODIC TABLE — clean, no horizontal scroll, mass at top ===== */
+  /* ===== PERIODIC TABLE — taller tiles, name under symbol, no scroll ===== */
   .ptable{
     display:grid;
     grid-template-columns:repeat(18, minmax(0,1fr));
-    gap:5px;
-    padding:14px;
+    gap:4px;
+    padding:12px;
     background:linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.45));
     border-radius:24px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.08);
@@ -102,77 +102,77 @@
   }
   .student-tile{
     position:relative;
-    aspect-ratio:1 / 1;
+    /* taller than wide so 3 lines of text fit */
+    aspect-ratio: 1 / 1.35;
     border:2px solid rgba(255,255,255,0.65);
-    border-radius:10px;
-    padding:3px;
+    border-radius:9px;
+    padding:3px 2px;
     cursor:pointer;
     transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
     overflow:hidden;
     color:#FFFFFF;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.25);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.10);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.28);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
+    line-height:1;
   }
   .student-tile:hover{
-    transform: translateY(-5px) rotate(-2deg) scale(1.08);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.20);
+    transform: translateY(-4px) scale(1.10);
+    box-shadow: 0 12px 22px rgba(0,0,0,0.22);
     z-index:5;
   }
   .student-tile.opened::after{
     content:'✓';
-    position:absolute; bottom:2px; right:3px;
-    font-size:.6rem; font-weight:900;
+    position:absolute; top:2px; right:2px;
+    font-size:.55rem; font-weight:900;
     color:#fff;
     background:var(--palm);
-    width:14px; height:14px; border-radius:50%;
+    width:13px; height:13px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
-    box-shadow: 0 0 6px rgba(46,196,182,.8);
+    box-shadow: 0 0 6px rgba(46,196,182,.9);
     line-height:1;
   }
   .student-tile .mass{
-    position:absolute; top:2px; left:0; right:0;
-    text-align:center;
-    font-size:.5rem; font-weight:700;
+    font-size:.48rem; font-weight:700;
     opacity:.95;
     line-height:1;
-    letter-spacing:.01em;
     font-family:'JetBrains Mono', monospace;
+    margin-bottom:3px;
+    letter-spacing:.01em;
   }
   .student-tile .sym{
-    font-size:1.15rem; font-weight:900; text-align:center;
+    font-size:1.1rem; font-weight:900;
     line-height:1;
     letter-spacing:.01em;
     text-shadow: 0 2px 3px rgba(0,0,0,0.3);
-    margin-top:8px;
   }
   .student-tile .nm{
-    font-size:.48rem; text-align:center; font-weight:700;
+    font-size:.44rem; font-weight:700;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
     padding:0 2px; opacity:.95;
     line-height:1.1;
     max-width:100%;
-    margin-top:2px;
+    margin-top:3px;
   }
 
   @media(min-width:640px){
-    .ptable{gap:6px; padding:16px;}
-    .student-tile{border-radius:12px; padding:4px;}
-    .student-tile .sym{font-size:1.5rem; margin-top:10px;}
-    .student-tile .mass{font-size:.62rem;}
-    .student-tile .nm{font-size:.6rem;}
-    .student-tile.opened::after{width:16px; height:16px; font-size:.7rem;}
+    .ptable{gap:5px; padding:14px;}
+    .student-tile{border-radius:10px; padding:4px 3px;}
+    .student-tile .mass{font-size:.58rem; margin-bottom:4px;}
+    .student-tile .sym{font-size:1.35rem;}
+    .student-tile .nm{font-size:.55rem; margin-top:4px;}
+    .student-tile.opened::after{width:15px; height:15px; font-size:.65rem;}
   }
   @media(min-width:1024px){
-    .ptable{gap:7px; padding:18px;}
-    .student-tile{border-radius:14px; padding:5px;}
-    .student-tile .sym{font-size:1.75rem; margin-top:12px;}
-    .student-tile .mass{font-size:.7rem;}
-    .student-tile .nm{font-size:.68rem;}
-    .student-tile.opened::after{width:18px; height:18px; font-size:.75rem;}
+    .ptable{gap:6px; padding:16px;}
+    .student-tile{border-radius:12px; padding:5px 3px;}
+    .student-tile .mass{font-size:.66rem; margin-bottom:5px;}
+    .student-tile .sym{font-size:1.6rem;}
+    .student-tile .nm{font-size:.62rem; margin-top:5px;}
+    .student-tile.opened::after{width:16px; height:16px; font-size:.7rem;}
   }
 
   .modal-backdrop{position:fixed;inset:0;background:rgba(26,26,46,.6);backdrop-filter:blur(10px);
@@ -246,27 +246,27 @@
     class="fixed bottom-2 right-2 z-40 opacity-10 hover:opacity-70 transition-opacity text-[10px] mono font-bold text-[var(--ink-soft)] border-2 border-[var(--ink-soft)] rounded-full px-3 py-1 bg-[var(--paper)]">
     skip
   </button>
-  <div class="max-w-6xl mx-auto px-3 sm:px-6 py-10 sm:py-14">
-    <div class="mb-8 text-center sm:text-left">
+  <div class="max-w-6xl mx-auto px-3 sm:px-6 py-8 sm:py-10">
+    <div class="mb-6 text-center sm:text-left">
       <span class="sticker sticker-aqua mono mb-3">📋 LAB REPORT · EXPERIMENT #001</span>
-      <h2 class="text-2xl sm:text-4xl font-black mb-2 text-ocean-gradient leading-tight">
+      <h2 class="text-2xl sm:text-3xl font-black mb-2 text-ocean-gradient leading-tight">
         The Synthesis of the Perfect Chemistry Class
       </h2>
       <p class="mono text-xs sm:text-sm font-bold text-[var(--ink-soft)]">
         SUPERVISOR: <span class="text-[var(--coral-deep)]">Prof. Naveen Reddii</span>
       </p>
     </div>
-    <div class="paper-card paper-card-coral mb-10">
+    <div class="paper-card paper-card-coral mb-8">
       <span class="sticker sticker-lime mono mb-3">HYPOTHESIS</span>
       <p class="text-sm sm:text-base leading-relaxed font-medium mt-2">
         By combining 50 unique elemental personalities under the catalytic guidance of Mr. Naveen Reddii, a perfectly stable and irreplaceable compound of memories is synthesized. 🌊
       </p>
     </div>
-    <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+    <div class="flex items-center justify-between mb-3 flex-wrap gap-3">
       <p class="mono text-xs sm:text-sm font-bold text-[var(--ink-soft)]" id="progressLine">0 / 50 samples logged</p>
       <span class="sticker sticker-hibiscus mono">TAP ANY TILE ✨</span>
     </div>
-    <div id="ptable" class="ptable mb-10"></div>
+    <div id="ptable" class="ptable mb-8"></div>
   </div>
 
   <div id="studentModal" class="modal-backdrop hidden">
@@ -496,9 +496,10 @@ function typeText(el, text, speed=32, cb){
 })();
 
 /* ========== SLIDE 2 : PERIODIC TABLE ==========
-   EDIT names / messages below.
-   The `mass` field is the number shown on top of each tile.
-   Change it to any string you want (e.g. "1.008", "~56", "4.0").
+   EDIT names / messages / mass below.
+   mass: the number shown at the top of each tile — change freely.
+   name: the label under the symbol.
+   msg: the personal message shown in the popup.
    ============================================== */
 const MSG_BANK = [
   "As stable as a noble gas, always there when it mattered — thank you, Sir, for a year we won't forget.",

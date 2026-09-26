@@ -88,34 +88,23 @@
     box-shadow:0 9px 0 rgba(0,0,0,0.15),0 14px 24px rgba(0,0,0,0.15);}
   .elt-tile:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,0.15);}
 
-  /* ===== PERIODIC TABLE — continuous packing, unique silhouette =====
-     Shape rows (classic periodic table outline, no gaps):
-       Row 1:  2 tiles  (cols 1-2)
-       Row 2:  8 tiles  (cols 1-8)
-       Row 3:  8 tiles  (cols 1-8)
-       Row 4: 18 tiles  (cols 1-18)
-       Row 5: 18 tiles  (cols 1-18)
-       Row 6: 32 tiles  (cols 1-32)  <-- lanthanide + actinide footnote row
-     Total capacity: 2+8+8+18+18+32 = 86 (we only have 46, so we stop after row 5 partway)
-     Row widths are relative — the grid uses a 32-col base and each row
-     spans a proportional number of columns so the silhouette is preserved.
-  ============================================== */
+  /* ===== PERIODIC TABLE — custom silhouette layout ===== */
   .ptable{
     display:grid;
-    grid-template-columns:repeat(32, minmax(0,1fr));
-    gap:6px;
-    padding:14px;
+    grid-template-columns:repeat(16, minmax(0,1fr));
+    gap:5px;
+    padding:18px 14px;
     background:linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.45));
     border-radius:24px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.08);
     backdrop-filter: blur(6px);
     width:100%;
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 0 auto;
   }
   .student-tile{
     position:relative;
-    aspect-ratio: 1 / 1.05;
+    aspect-ratio: 1 / 1.1;
     border:2px solid rgba(255,255,255,0.7);
     border-radius:8px;
     padding:3px 1px;
@@ -132,7 +121,14 @@
     line-height:1;
     min-width:0;
   }
-  .student-tile:hover{
+  .student-tile.empty{
+    visibility:hidden;
+    pointer-events:none;
+    box-shadow:none;
+    border:none;
+    background:none !important;
+  }
+  .student-tile:hover:not(.empty){
     transform: translateY(-4px) scale(1.12);
     box-shadow: 0 12px 22px rgba(0,0,0,0.25);
     z-index:5;
@@ -156,14 +152,14 @@
     letter-spacing:.01em;
   }
   .student-tile .sym{
-    font-size:.85rem; font-weight:900;
+    font-size:.9rem; font-weight:900;
     line-height:1;
     letter-spacing:.01em;
     text-shadow: 0 1px 2px rgba(0,0,0,0.35);
-    margin:1px 0;
+    margin:2px 0;
   }
   .student-tile .weight{
-    font-size:.45rem; font-weight:700;
+    font-size:.44rem; font-weight:700;
     opacity:.95;
     line-height:1;
     font-family:'JetBrains Mono', monospace;
@@ -171,19 +167,19 @@
   }
 
   @media(min-width:640px){
-    .ptable{gap:7px; padding:16px;}
+    .ptable{gap:7px; padding:22px 18px;}
     .student-tile{border-radius:9px; padding:4px 1px;}
     .student-tile .zed{font-size:.6rem;}
-    .student-tile .sym{font-size:1.05rem;}
-    .student-tile .weight{font-size:.55rem;}
+    .student-tile .sym{font-size:1.1rem;}
+    .student-tile .weight{font-size:.54rem;}
     .student-tile.opened::after{width:14px; height:14px; font-size:.6rem;}
   }
   @media(min-width:1024px){
-    .ptable{gap:9px; padding:18px;}
+    .ptable{gap:9px; padding:26px 22px;}
     .student-tile{border-radius:11px; padding:5px 2px;}
-    .student-tile .zed{font-size:.72rem;}
+    .student-tile .zed{font-size:.7rem;}
     .student-tile .sym{font-size:1.3rem;}
-    .student-tile .weight{font-size:.66rem;}
+    .student-tile .weight{font-size:.64rem;}
     .student-tile.opened::after{width:16px; height:16px; font-size:.66rem;}
   }
 
@@ -445,10 +441,6 @@ function typeText(el, text, speed=32, cb){
     s.id='slot'+i;
     slotsWrap.appendChild(s);
   }
-  const slot3 = document.getElementById('slot3');
-  if(slot3){
-    slot3.style.marginLeft = window.innerWidth < 480 ? '0.5rem' : '0.9rem';
-  }
 
   const TILE_COLORS = [
     'linear-gradient(135deg,#FF6B6B,#E63946)',
@@ -523,24 +515,10 @@ function typeText(el, text, speed=32, cb){
   typeText(document.getElementById('typeLine'), 'Enter Your Name:', 45);
 })();
 
-/* ========== SLIDE 2 : PERIODIC TABLE (UNIQUE SHAPE, CONTINUOUS PACKING) ==========
-   Elements are placed in atomic-number order, packed continuously into
-   the classic periodic-table silhouette (no gaps, no empty cells).
-
-   The shape is defined by row capacities:
-     Row 1:  2 cells  (classic top short row)
-     Row 2:  8 cells
-     Row 3:  8 cells
-     Row 4: 18 cells
-     Row 5: 18 cells
-     Row 6: 32 cells  (lanthanide + actinide footnote row)
-   Total capacity = 86. We have 46 elements, so they fill rows 1-5
-   and part of row 6, preserving the stepped outline.
-
-   Each row is centered within the 32-column grid so the silhouette
-   stays symmetric. No empty placeholder cells are rendered — the
-   grid just ends where the row ends, which naturally produces the
-   periodic-table stepped shape.
+/* ========== SLIDE 2 : PERIODIC TABLE ==========
+   Custom periodic-table silhouette. 7 rows on a 16-column grid.
+   Empty cells are hidden placeholders that preserve the shape.
+   Tiles are filled in atomic-number order (roster order).
    ============================================== */
 const MSG_BANK = [
   "As stable as a noble gas, always there when it mattered — thank you, Sir, for a year we won't forget.",
@@ -551,13 +529,6 @@ const MSG_BANK = [
   "The catalyst for our best year yet. We'll miss you more than words can balance."
 ];
 
-// Row capacities for the classic periodic-table silhouette.
-// We have 46 elements. Rows fill left-to-right, top-to-bottom.
-const ROW_CAPACITIES = [2, 8, 8, 18, 18, 32];
-
-// Each student: z (atomic number), sym (symbol), mass (accurate atomic weight),
-// cat (chemistry category for color/legend), name, msg.
-// They are rendered in array order into the shape above.
 const students = [
   {z:1,   sym:'H',  mass:'1.008',   cat:'nonmetal',    name:'Harshavardhan Singh',   msg:MSG_BANK[0]},
   {z:4,   sym:'Be', mass:'9.0122',  cat:'alkaline',    name:'aBEer Aman Saxena',     msg:MSG_BANK[1]},
@@ -607,7 +578,19 @@ const students = [
   {z:110, sym:'Ds', mass:'[281]',   cat:'transition',  name:'Devdutt S',             msg:MSG_BANK[3]},
 ];
 
-// Category gradients (used for tile color)
+/* Custom silhouette layout — 7 rows on a 16-column grid.
+   Each entry is either null (empty cell, invisible) or the index into `students`.
+   Row capacities: 1, 4, 10, 10, 10, 8, 3 = 46 total. */
+const LAYOUT = [
+  /* Row 1 */ [0, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+  /* Row 2 */ [1, 2, null, null, null, null, null, null, null, null, null, null, null, 3, 4, null],
+  /* Row 3 */ [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, null, null, null, null, null, null],
+  /* Row 4 */ [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, null, null, null, null, null, null],
+  /* Row 5 */ [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, null, null, null, null, null, null],
+  /* Row 6 */ [35, 36, 37, 38, 39, 40, 41, 42, null, null, null, null, null, null, null, null],
+  /* Row 7 */ [43, 44, 45, null, null, null, null, null, null, null, null, null, null, null, null, null],
+];
+
 const CATEGORY_GRADIENTS = {
   alkali:     'linear-gradient(135deg,#FF6B6B,#E63946)',
   alkaline:   'linear-gradient(135deg,#FFB84D,#FF8C42)',
@@ -626,41 +609,31 @@ const openedSet = new Set();
 function renderPeriodicTable(){
   const wrap = document.getElementById('ptable');
   wrap.innerHTML = '';
-
-  // Build the shape: an array of rows, each row has a list of students.
-  // We fill continuously in atomic-number order (the array order).
-  let idx = 0;
-  const rows = [];
-  for(const cap of ROW_CAPACITIES){
-    const row = [];
-    for(let i = 0; i < cap && idx < students.length; i++){
-      row.push(students[idx]);
-      idx++;
-    }
-    if(row.length > 0) rows.push(row);
-    if(idx >= students.length) break;
-  }
-
-  // The grid has 32 columns. Each row is centered within that.
-  // We place each row's tiles into a sub-grid that spans the row's width,
-  // centered using grid-column start = floor((32 - row.length)/2) + 1.
-  rows.forEach(row => {
-    const rowLen = row.length;
-    const startCol = Math.floor((32 - rowLen) / 2) + 1;
-    row.forEach((st, i) => {
-      const tile = document.createElement('div');
-      tile.className = 'student-tile';
+  LAYOUT.forEach(row => {
+    row.forEach(slotIdx => {
+      const cell = document.createElement('div');
+      if(slotIdx === null){
+        cell.className = 'student-tile empty';
+        wrap.appendChild(cell);
+        return;
+      }
+      const st = students[slotIdx];
+      if(!st){
+        cell.className = 'student-tile empty';
+        wrap.appendChild(cell);
+        return;
+      }
+      cell.className = 'student-tile';
       const grad = CATEGORY_GRADIENTS[st.cat] || CATEGORY_GRADIENTS.nonmetal;
-      tile.style.background = grad;
-      tile.style.gridColumn = (startCol + i) + ' / span 1';
-      tile.dataset.z = st.z;
-      tile.innerHTML = `
+      cell.style.background = grad;
+      cell.dataset.z = st.z;
+      cell.innerHTML = `
         <span class="zed mono">${st.z}</span>
         <div class="sym mono">${st.sym}</div>
         <span class="weight mono">${st.mass}</span>
       `;
-      tile.addEventListener('click', ()=>openStudent(st, tile));
-      wrap.appendChild(tile);
+      cell.addEventListener('click', ()=>openStudent(st, cell));
+      wrap.appendChild(cell);
     });
   });
 }

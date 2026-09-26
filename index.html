@@ -88,7 +88,7 @@
     box-shadow:0 9px 0 rgba(0,0,0,0.15),0 14px 24px rgba(0,0,0,0.15);}
   .elt-tile:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,0.15);}
 
-  /* ===== PERIODIC TABLE — taller tiles, name under symbol, no scroll ===== */
+  /* ===== PERIODIC TABLE — dense grid, ordered by atomic number, colored by chemistry category ===== */
   .ptable{
     display:grid;
     grid-template-columns:repeat(18, minmax(0,1fr));
@@ -99,14 +99,15 @@
     box-shadow: 0 10px 40px rgba(0,0,0,0.08);
     backdrop-filter: blur(6px);
     width:100%;
+    max-width: 900px;
+    margin: 0 auto;
   }
   .student-tile{
     position:relative;
-    /* taller than wide so 3 lines of text fit */
-    aspect-ratio: 1 / 1.35;
+    aspect-ratio: 1 / 1.15;
     border:2px solid rgba(255,255,255,0.65);
-    border-radius:9px;
-    padding:3px 2px;
+    border-radius:8px;
+    padding:2px 1px;
     cursor:pointer;
     transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
     overflow:hidden;
@@ -126,54 +127,58 @@
   }
   .student-tile.opened::after{
     content:'✓';
-    position:absolute; top:2px; right:2px;
-    font-size:.55rem; font-weight:900;
+    position:absolute; top:1px; right:1px;
+    font-size:.5rem; font-weight:900;
     color:#fff;
     background:var(--palm);
-    width:13px; height:13px; border-radius:50%;
+    width:12px; height:12px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
     box-shadow: 0 0 6px rgba(46,196,182,.9);
     line-height:1;
   }
-  .student-tile .mass{
-    font-size:.48rem; font-weight:700;
-    opacity:.95;
+  .student-tile .zed{
+    font-size:.5rem; font-weight:700;
+    opacity:.92;
     line-height:1;
     font-family:'JetBrains Mono', monospace;
-    margin-bottom:3px;
+    margin-bottom:1px;
+    letter-spacing:.01em;
+  }
+  .student-tile .weight{
+    font-size:.5rem; font-weight:700;
+    opacity:.92;
+    line-height:1;
+    font-family:'JetBrains Mono', monospace;
+    margin-top:1px;
     letter-spacing:.01em;
   }
   .student-tile .sym{
-    font-size:1.1rem; font-weight:900;
+    font-size:1rem; font-weight:900;
     line-height:1;
     letter-spacing:.01em;
     text-shadow: 0 2px 3px rgba(0,0,0,0.3);
   }
-  .student-tile .nm{
-    font-size:.44rem; font-weight:700;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    padding:0 2px; opacity:.95;
-    line-height:1.1;
-    max-width:100%;
-    margin-top:3px;
-  }
 
   @media(min-width:640px){
-    .ptable{gap:5px; padding:14px;}
-    .student-tile{border-radius:10px; padding:4px 3px;}
-    .student-tile .mass{font-size:.58rem; margin-bottom:4px;}
-    .student-tile .sym{font-size:1.35rem;}
-    .student-tile .nm{font-size:.55rem; margin-top:4px;}
-    .student-tile.opened::after{width:15px; height:15px; font-size:.65rem;}
+    .ptable{grid-template-columns:repeat(18, minmax(0,1fr)); gap:5px; padding:14px;}
+    .student-tile{border-radius:9px; padding:3px 1px;}
+    .student-tile .zed{font-size:.6rem; margin-bottom:2px;}
+    .student-tile .weight{font-size:.6rem; margin-top:2px;}
+    .student-tile .sym{font-size:1.2rem;}
+    .student-tile.opened::after{width:14px; height:14px; font-size:.6rem;}
   }
   @media(min-width:1024px){
-    .ptable{gap:6px; padding:16px;}
-    .student-tile{border-radius:12px; padding:5px 3px;}
-    .student-tile .mass{font-size:.66rem; margin-bottom:5px;}
-    .student-tile .sym{font-size:1.6rem;}
-    .student-tile .nm{font-size:.62rem; margin-top:5px;}
-    .student-tile.opened::after{width:16px; height:16px; font-size:.7rem;}
+    .ptable{grid-template-columns:repeat(18, minmax(0,1fr)); gap:6px; padding:16px;}
+    .student-tile{border-radius:10px; padding:4px 2px;}
+    .student-tile .zed{font-size:.7rem; margin-bottom:2px;}
+    .student-tile .weight{font-size:.7rem; margin-top:2px;}
+    .student-tile .sym{font-size:1.5rem;}
+    .student-tile.opened::after{width:16px; height:16px; font-size:.66rem;}
   }
+
+  .legend-dot{width:11px;height:11px;border-radius:50%;display:inline-block;flex-shrink:0;
+    box-shadow:0 1px 3px rgba(0,0,0,0.25);}
+  .legend-item{display:flex;align-items:center;gap:6px;white-space:nowrap;}
 
   .modal-backdrop{position:fixed;inset:0;background:rgba(26,26,46,.6);backdrop-filter:blur(10px);
     display:flex;align-items:center;justify-content:center;padding:20px;z-index:50;
@@ -259,12 +264,24 @@
     <div class="paper-card paper-card-coral mb-8">
       <span class="sticker sticker-lime mono mb-3">HYPOTHESIS</span>
       <p class="text-sm sm:text-base leading-relaxed font-medium mt-2">
-        By combining 50 unique elemental personalities under the catalytic guidance of Mr. Naveen Reddii, a perfectly stable and irreplaceable compound of memories is synthesized. 🌊
+        By combining 46 unique elemental personalities under the catalytic guidance of Mr. Naveen Reddii, a perfectly stable and irreplaceable compound of memories is synthesized. 🌊
       </p>
     </div>
     <div class="flex items-center justify-between mb-3 flex-wrap gap-3">
-      <p class="mono text-xs sm:text-sm font-bold text-[var(--ink-soft)]" id="progressLine">0 / 50 samples logged</p>
+      <p class="mono text-xs sm:text-sm font-bold text-[var(--ink-soft)]" id="progressLine">0 / 46 samples logged</p>
       <span class="sticker sticker-hibiscus mono">TAP ANY TILE ✨</span>
+    </div>
+    <div class="flex flex-wrap gap-x-4 gap-y-2 mb-4 mono text-[10px] sm:text-xs font-bold text-[var(--ink-soft)]">
+      <span class="legend-item"><span class="legend-dot" style="background:#FF6B6B"></span>Alkali metal</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#FFB84D"></span>Alkaline earth</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#45B7D1"></span>Transition metal</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#4ECDC4"></span>Post-transition</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#C7F464"></span>Metalloid</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#FFE66D"></span>Nonmetal</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#A06CD5"></span>Halogen</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#7DD3FC"></span>Noble gas</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#FF4D9D"></span>Lanthanide</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#C084FC"></span>Actinide</span>
     </div>
     <div id="ptable" class="ptable mb-8"></div>
   </div>
@@ -495,11 +512,11 @@ function typeText(el, text, speed=32, cb){
   typeText(document.getElementById('typeLine'), 'Enter Your Name:', 45);
 })();
 
-/* ========== SLIDE 2 : PERIODIC TABLE ==========
-   EDIT names / messages / mass below.
-   mass: the number shown at the top of each tile — change freely.
-   name: the label under the symbol.
-   msg: the personal message shown in the popup.
+/* ========== SLIDE 2 : PERIODIC TABLE (UNIQUE SHAPE, ACCURATE DATA) ==========
+   Elements ordered by atomic number, placed on a custom 18-column grid
+   that mimics the classic periodic table silhouette, but each element
+   is NOT in its true group/period. Uses a `pos` field {row, col}.
+   All atomic numbers and weights are real. Names removed from tiles.
    ============================================== */
 const MSG_BANK = [
   "As stable as a noble gas, always there when it mattered — thank you, Sir, for a year we won't forget.",
@@ -510,59 +527,76 @@ const MSG_BANK = [
   "The catalyst for our best year yet. We'll miss you more than words can balance."
 ];
 
+// Each entry: z (atomic number), sym (symbol), mass (accurate atomic weight),
+// cat (category for legend/color), name (student name), msg (personal message),
+// pos: {row, col} — custom grid placement for the unique periodic-table shape.
+// Row 1: 2 tiles, Row 2: 8 tiles, Row 3: 8 tiles, Row 4: 18 tiles, Row 5: 18 tiles,
+// Row 6: 32 tiles (lanthanides+actinides in a footnote row), Row 7: 32 tiles (same).
+// We only have 46 elements, so we fill the shape with a subset in order.
+
 const students = [
-  {z:1, sym:'H',  mass:'1.008', group:1,  period:1, name:'Student 01', msg:MSG_BANK[0]},
-  {z:2, sym:'He', mass:'4.003', group:18, period:1, name:'Student 02', msg:MSG_BANK[1]},
-  {z:3, sym:'Li', mass:'6.94',  group:1,  period:2, name:'Student 03', msg:MSG_BANK[2]},
-  {z:4, sym:'Be', mass:'9.012', group:2,  period:2, name:'Student 04', msg:MSG_BANK[3]},
-  {z:5, sym:'B',  mass:'10.81', group:13, period:2, name:'Student 05', msg:MSG_BANK[4]},
-  {z:6, sym:'C',  mass:'12.011',group:14, period:2, name:'Student 06', msg:MSG_BANK[5]},
-  {z:7, sym:'N',  mass:'14.007',group:15, period:2, name:'Student 07', msg:MSG_BANK[0]},
-  {z:8, sym:'O',  mass:'15.999',group:16, period:2, name:'Student 08', msg:MSG_BANK[1]},
-  {z:9, sym:'F',  mass:'18.998',group:17, period:2, name:'Student 09', msg:MSG_BANK[2]},
-  {z:10,sym:'Ne', mass:'20.180',group:18, period:2, name:'Student 10', msg:MSG_BANK[3]},
-  {z:11,sym:'Na', mass:'22.990',group:1,  period:3, name:'Student 11', msg:MSG_BANK[4]},
-  {z:12,sym:'Mg', mass:'24.305',group:2,  period:3, name:'Student 12', msg:MSG_BANK[5]},
-  {z:13,sym:'Al', mass:'26.982',group:13, period:3, name:'Student 13', msg:MSG_BANK[0]},
-  {z:14,sym:'Si', mass:'28.085',group:14, period:3, name:'Student 14', msg:MSG_BANK[1]},
-  {z:15,sym:'P',  mass:'30.974',group:15, period:3, name:'Student 15', msg:MSG_BANK[2]},
-  {z:16,sym:'S',  mass:'32.06', group:16, period:3, name:'Student 16', msg:MSG_BANK[3]},
-  {z:17,sym:'Cl', mass:'35.45', group:17, period:3, name:'Student 17', msg:MSG_BANK[4]},
-  {z:18,sym:'Ar', mass:'39.948',group:18, period:3, name:'Student 18', msg:MSG_BANK[5]},
-  {z:19,sym:'K',  mass:'39.098',group:1,  period:4, name:'Kavya', msg:'Sharp, funny, and always first with the right answer. Thank you Sir, for every bit of chemistry (and life) you taught us.'},
-  {z:20,sym:'Ca', mass:'40.078',group:2,  period:4, name:'Student 20', msg:MSG_BANK[1]},
-  {z:21,sym:'Sc', mass:'44.956',group:3,  period:4, name:'Student 21', msg:MSG_BANK[2]},
-  {z:22,sym:'Ti', mass:'47.867',group:4,  period:4, name:'Student 22', msg:MSG_BANK[3]},
-  {z:23,sym:'V',  mass:'50.942',group:5,  period:4, name:'Student 23', msg:MSG_BANK[4]},
-  {z:24,sym:'Cr', mass:'51.996',group:6,  period:4, name:'Student 24', msg:MSG_BANK[5]},
-  {z:25,sym:'Mn', mass:'54.938',group:7,  period:4, name:'Student 25', msg:MSG_BANK[0]},
-  {z:26,sym:'Fe', mass:'55.845',group:8,  period:4, name:'Firoz', msg:'Steady, dependable, and always up for a good debate about the last question on the worksheet. Thanks for everything, Sir.'},
-  {z:27,sym:'Co', mass:'58.933',group:9,  period:4, name:'Student 27', msg:MSG_BANK[2]},
-  {z:28,sym:'Ni', mass:'58.693',group:10, period:4, name:'Student 28', msg:MSG_BANK[3]},
-  {z:29,sym:'Cu', mass:'63.546',group:11, period:4, name:'Student 29', msg:MSG_BANK[4]},
-  {z:30,sym:'Zn', mass:'65.38', group:12, period:4, name:'Student 30', msg:MSG_BANK[5]},
-  {z:31,sym:'Ga', mass:'69.723',group:13, period:4, name:'Student 31', msg:MSG_BANK[0]},
-  {z:32,sym:'Ge', mass:'72.630',group:14, period:4, name:'Student 32', msg:MSG_BANK[1]},
-  {z:33,sym:'As', mass:'74.922',group:15, period:4, name:'Anshuman', msg:'From back-bench questions to front-row curiosity — thank you Sir for making every class one to look forward to.'},
-  {z:34,sym:'Se', mass:'78.971',group:16, period:4, name:'Student 34', msg:MSG_BANK[3]},
-  {z:35,sym:'Br', mass:'79.904',group:17, period:4, name:'Student 35', msg:MSG_BANK[4]},
-  {z:36,sym:'Kr', mass:'83.798',group:18, period:4, name:'Student 36', msg:MSG_BANK[5]},
-  {z:37,sym:'Rb', mass:'85.468',group:1,  period:5, name:'Student 37', msg:MSG_BANK[0]},
-  {z:38,sym:'Sr', mass:'87.62', group:2,  period:5, name:'Student 38', msg:MSG_BANK[1]},
-  {z:39,sym:'Y',  mass:'88.906',group:3,  period:5, name:'Student 39', msg:MSG_BANK[2]},
-  {z:40,sym:'Zr', mass:'91.224',group:4,  period:5, name:'Student 40', msg:MSG_BANK[3]},
-  {z:41,sym:'Nb', mass:'92.906',group:5,  period:5, name:'Student 41', msg:MSG_BANK[4]},
-  {z:42,sym:'Mo', mass:'95.95', group:6,  period:5, name:'Student 42', msg:MSG_BANK[5]},
-  {z:43,sym:'Tc', mass:'[98]',  group:7,  period:5, name:'Student 43', msg:MSG_BANK[0]},
-  {z:44,sym:'Ru', mass:'101.07',group:8,  period:5, name:'Student 44', msg:MSG_BANK[1]},
-  {z:45,sym:'Rh', mass:'102.906',group:9, period:5, name:'Student 45', msg:MSG_BANK[2]},
-  {z:46,sym:'Pd', mass:'106.42',group:10, period:5, name:'Student 46', msg:MSG_BANK[3]},
-  {z:47,sym:'Ag', mass:'107.868',group:11,period:5, name:'Student 47', msg:MSG_BANK[4]},
-  {z:48,sym:'Cd', mass:'112.414',group:12,period:5, name:'Student 48', msg:MSG_BANK[5]},
-  {z:49,sym:'In', mass:'114.818',group:13,period:5, name:'Student 49', msg:MSG_BANK[0]},
-  {z:50,sym:'Sn', mass:'118.710',group:14,period:5, name:'Student 50', msg:MSG_BANK[1]},
+  {z:1,   sym:'H',  mass:'1.008',   cat:'nonmetal',    name:'Harshavardhan Singh',   msg:MSG_BANK[0], pos:{r:1,c:1}},
+  {z:4,   sym:'Be', mass:'9.0122',  cat:'alkaline',    name:'aBEer Aman Saxena',     msg:MSG_BANK[1], pos:{r:1,c:18}},
+  {z:5,   sym:'B',  mass:'10.81',   cat:'metalloid',   name:'Jayanth Bhojasia',      msg:MSG_BANK[2], pos:{r:2,c:13}},
+  {z:11,  sym:'Na', mass:'22.990',  cat:'alkali',      name:'Sai NAtesh Bysani',     msg:MSG_BANK[3], pos:{r:2,c:1}},
+  {z:13,  sym:'Al', mass:'26.982',  cat:'post',        name:'murALi Hrishikesh',     msg:MSG_BANK[4], pos:{r:2,c:13}},
+  {z:14,  sym:'Si', mass:'28.085',  cat:'metalloid',   name:'ShIvanSh Agarwal',      msg:MSG_BANK[5], pos:{r:2,c:14}},
+  {z:15,  sym:'P',  mass:'30.974',  cat:'nonmetal',    name:'Anshika Pradhan',       msg:MSG_BANK[0], pos:{r:2,c:15}},
+  {z:16,  sym:'S',  mass:'32.06',   cat:'nonmetal',    name:'Sai Surya',             msg:MSG_BANK[1], pos:{r:2,c:16}},
+  {z:18,  sym:'Ar', mass:'39.948',  cat:'noble',       name:'Anika shARma',          msg:MSG_BANK[2], pos:{r:2,c:18}},
+  {z:19,  sym:'K',  mass:'39.098',  cat:'alkali',      name:'Krishang Tekariwal',    msg:MSG_BANK[3], pos:{r:3,c:1}},
+  {z:22,  sym:'Ti', mass:'47.867',  cat:'transition',  name:'TanIsh Gubba',          msg:MSG_BANK[4], pos:{r:3,c:4}},
+  {z:23,  sym:'V',  mass:'50.942',  cat:'transition',  name:'Venkat Sai Varanasi',   msg:MSG_BANK[5], pos:{r:3,c:5}},
+  {z:28,  sym:'Ni', mass:'58.693',  cat:'transition',  name:'Niharitha',             msg:MSG_BANK[0], pos:{r:3,c:10}},
+  {z:31,  sym:'Ga', mass:'69.723',  cat:'post',        name:'Anay aGArwal',          msg:MSG_BANK[1], pos:{r:3,c:13}},
+  {z:33,  sym:'As', mass:'74.922',  cat:'metalloid',   name:'AShuman Yadav',         msg:MSG_BANK[2], pos:{r:3,c:15}},
+  {z:34,  sym:'Se', mass:'78.971',  cat:'nonmetal',    name:'StEve Louies Alappat',  msg:MSG_BANK[3], pos:{r:3,c:16}},
+  {z:36,  sym:'Kr', mass:'83.798',  cat:'noble',       name:'Nandu KRishna',         msg:MSG_BANK[4], pos:{r:3,c:18}},
+  {z:38,  sym:'Sr', mass:'87.62',   cat:'alkaline',    name:'SReyan Panda',          msg:MSG_BANK[5], pos:{r:4,c:2}},
+  {z:41,  sym:'Nb', mass:'92.906',  cat:'transition',  name:'Sachit shaNBag',        msg:MSG_BANK[0], pos:{r:4,c:5}},
+  {z:42,  sym:'Mo', mass:'95.95',   cat:'transition',  name:'Shrijit MOhapatra',     msg:MSG_BANK[1], pos:{r:4,c:6}},
+  {z:44,  sym:'Ru', mass:'101.07',  cat:'transition',  name:'RUdra Jyoti Malakar',   msg:MSG_BANK[2], pos:{r:4,c:8}},
+  {z:45,  sym:'Rh', mass:'102.906', cat:'transition',  name:'ROHan Ashutosh',        msg:MSG_BANK[3], pos:{r:4,c:9}},
+  {z:47,  sym:'Ag', mass:'107.868', cat:'transition',  name:'Avni AGarwal',          msg:MSG_BANK[4], pos:{r:4,c:11}},
+  {z:48,  sym:'Cd', mass:'112.414', cat:'transition',  name:'ChoDavarapu Karthik',   msg:MSG_BANK[5], pos:{r:4,c:12}},
+  {z:49,  sym:'In', mass:'114.818', cat:'post',        name:'VIhaaN Jasti',          msg:MSG_BANK[0], pos:{r:4,c:13}},
+  {z:56,  sym:'Ba', mass:'137.327', cat:'alkaline',    name:'Ryan abooBAcker',       msg:MSG_BANK[1], pos:{r:5,c:2}},
+  {z:57,  sym:'La', mass:'138.905', cat:'lanthanide',  name:'Mehul shukLA',          msg:MSG_BANK[2], pos:{r:6,c:3}},
+  {z:62,  sym:'Sm', mass:'150.36',  cat:'lanthanide',  name:'Akhilan SatiShkuMar',   msg:MSG_BANK[3], pos:{r:6,c:8}},
+  {z:67,  sym:'Ho', mass:'164.930', cat:'lanthanide',  name:'Aadhav asHOk',          msg:MSG_BANK[4], pos:{r:6,c:13}},
+  {z:68,  sym:'Er', mass:'167.259', cat:'lanthanide',  name:'Atharv vERma',          msg:MSG_BANK[5], pos:{r:6,c:14}},
+  {z:73,  sym:'Ta', mass:'180.948', cat:'transition',  name:'TAshvi Mishra/Gupta',   msg:MSG_BANK[0], pos:{r:5,c:5}},
+  {z:75,  sym:'Re', mass:'186.207', cat:'transition',  name:'Jayanth ankamREdi',     msg:MSG_BANK[1], pos:{r:5,c:7}},
+  {z:78,  sym:'Pt', mass:'195.084', cat:'transition',  name:'ParTh Manoj Phirke',    msg:MSG_BANK[2], pos:{r:5,c:10}},
+  {z:79,  sym:'Au', mass:'196.967', cat:'transition',  name:'AyUsh Agarwal',         msg:MSG_BANK[3], pos:{r:5,c:11}},
+  {z:83,  sym:'Bi', mass:'208.980', cat:'post',        name:'Darsh aBhIjeet',        msg:MSG_BANK[4], pos:{r:5,c:15}},
+  {z:85,  sym:'At', mass:'[210]',   cat:'halogen',     name:'AshiTa Singla',         msg:MSG_BANK[5], pos:{r:5,c:17}},
+  {z:86,  sym:'Rn', mass:'[222]',   cat:'noble',       name:'Akshat shRaNgarya',     msg:MSG_BANK[0], pos:{r:5,c:18}},
+  {z:88,  sym:'Ra', mass:'[226]',   cat:'alkaline',    name:'Sai naRAyan',           msg:MSG_BANK[1], pos:{r:6,c:2}},
+  {z:89,  sym:'Ac', mass:'[227]',   cat:'actinide',    name:'Akash ACharya',         msg:MSG_BANK[2], pos:{r:7,c:3}},
+  {z:90,  sym:'Th', mass:'232.038', cat:'actinide',    name:'SiddharTH K',           msg:MSG_BANK[3], pos:{r:7,c:4}},
+  {z:91,  sym:'Pa', mass:'231.036', cat:'actinide',    name:'PrAnav Tewari',         msg:MSG_BANK[4], pos:{r:7,c:5}},
+  {z:92,  sym:'U',  mass:'238.029', cat:'actinide',    name:'ShaUrya Raj',           msg:MSG_BANK[5], pos:{r:7,c:6}},
+  {z:94,  sym:'Pu', mass:'[244]',   cat:'actinide',    name:'Aryan SiddhaPUr',       msg:MSG_BANK[0], pos:{r:7,c:8}},
+  {z:101, sym:'Md', mass:'[258]',   cat:'actinide',    name:'Sathvik MaDhukar',      msg:MSG_BANK[1], pos:{r:7,c:15}},
+  {z:108, sym:'Hs', mass:'[269]',   cat:'transition',  name:'Harshith Halejolad',    msg:MSG_BANK[2], pos:{r:7,c:8}},
+  {z:110, sym:'Ds', mass:'[281]',   cat:'transition',  name:'Devdutt S',             msg:MSG_BANK[3], pos:{r:7,c:10}},
 ];
 
+const CATEGORY_GRADIENTS = {
+  alkali:     'linear-gradient(135deg,#FF6B6B,#E63946)',
+  alkaline:   'linear-gradient(135deg,#FFB84D,#FF8C42)',
+  transition: 'linear-gradient(135deg,#45B7D1,#2E86AB)',
+  post:       'linear-gradient(135deg,#4ECDC4,#1A9E96)',
+  metalloid:  'linear-gradient(135deg,#C7F464,#8FBF2A)',
+  nonmetal:   'linear-gradient(135deg,#FFE66D,#F4B400)',
+  halogen:    'linear-gradient(135deg,#A06CD5,#7B4FBF)',
+  noble:      'linear-gradient(135deg,#7DD3FC,#3B82F6)',
+  lanthanide: 'linear-gradient(135deg,#FF4D9D,#C9187A)',
+  actinide:   'linear-gradient(135deg,#C084FC,#8B5CF6)',
+};
+
+// Custom tile gradients by column index (just for variety)
 const TILE_GRADIENTS = {
   1:'linear-gradient(135deg,#FF6B6B,#E63946)', 2:'linear-gradient(135deg,#FFB84D,#FF8C42)',
   3:'linear-gradient(135deg,#FFE66D,#F4B400)', 4:'linear-gradient(135deg,#C7F464,#8FBF2A)',
@@ -580,21 +614,39 @@ const openedSet = new Set();
 function renderPeriodicTable(){
   const wrap = document.getElementById('ptable');
   wrap.innerHTML = '';
-  students.forEach(st=>{
-    const tile = document.createElement('div');
-    tile.className = 'student-tile';
-    tile.style.gridColumn = st.group;
-    tile.style.gridRow = st.period;
-    tile.style.background = TILE_GRADIENTS[st.group] || TILE_GRADIENTS[5];
-    tile.dataset.z = st.z;
-    tile.innerHTML = `
-      <span class="mass mono">${st.mass}</span>
-      <div class="sym mono">${st.sym}</div>
-      <div class="nm">${st.name.split(' — ')[0]}</div>
-    `;
-    tile.addEventListener('click', ()=>openStudent(st, tile));
-    wrap.appendChild(tile);
+  // Build a map of pos -> student
+  const posMap = {};
+  students.forEach(st => {
+    posMap[`${st.pos.r}-${st.pos.c}`] = st;
   });
+  // Fill the 18x7 grid (rows 1-7, cols 1-18)
+  for(let r = 1; r <= 7; r++){
+    for(let c = 1; c <= 18; c++){
+      const st = posMap[`${r}-${c}`];
+      if(st){
+        const tile = document.createElement('div');
+        tile.className = 'student-tile';
+        // Use category gradient or column-based gradient
+        const grad = CATEGORY_GRADIENTS[st.cat] || TILE_GRADIENTS[((c-1)%18)+1];
+        tile.style.background = grad;
+        tile.dataset.z = st.z;
+        tile.innerHTML = `
+          <span class="zed mono">${st.z}</span>
+          <div class="sym mono">${st.sym}</div>
+          <span class="weight mono">${st.mass}</span>
+        `;
+        tile.addEventListener('click', ()=>openStudent(st, tile));
+        wrap.appendChild(tile);
+      } else {
+        // Empty placeholder
+        const empty = document.createElement('div');
+        empty.className = 'student-tile';
+        empty.style.visibility = 'hidden';
+        empty.style.pointerEvents = 'none';
+        wrap.appendChild(empty);
+      }
+    }
+  }
 }
 renderPeriodicTable();
 

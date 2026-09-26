@@ -219,6 +219,7 @@
   .btn-coral{background:linear-gradient(135deg,var(--coral),var(--coral-deep));color:#fff;}
   .btn-lagoon{background:linear-gradient(135deg,var(--lagoon),var(--palm));color:#fff;}
   .btn-mango{background:linear-gradient(135deg,var(--mango),var(--mango-deep));color:#5A2E00;}
+  .btn-hibiscus{background:linear-gradient(135deg,var(--hibiscus),var(--coral-deep));color:#fff;}
 
   .paper-card{background:var(--paper);border:3px solid var(--ink);border-radius:20px;padding:22px;
     box-shadow:8px 8px 0 var(--mango);}
@@ -227,6 +228,22 @@
   .paper-card-lime{box-shadow:8px 8px 0 var(--lime);}
   .paper-card-hibiscus{box-shadow:8px 8px 0 var(--hibiscus);}
 
+  /* Dev skip button — global, present on every slide */
+  .dev-skip{
+    position:fixed; bottom:10px; right:10px; z-index:45;
+    opacity:.18; transition:opacity .2s;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px; font-weight:700;
+    color:var(--ink-soft);
+    border:2px solid var(--ink-soft);
+    border-radius:999px;
+    padding:4px 10px;
+    background:var(--paper);
+    cursor:pointer;
+    user-select:none;
+  }
+  .dev-skip:hover{opacity:.9;}
+
   ::-webkit-scrollbar{width:12px;height:12px;}
   ::-webkit-scrollbar-track{background:transparent;}
   ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--coral),var(--mango));
@@ -234,6 +251,9 @@
 </style>
 </head>
 <body>
+
+<!-- Global dev skip — jumps forward one slide at a time -->
+<button id="devSkipGlobal" class="dev-skip" title="dev: skip to next slide">skip ▸</button>
 
 <!-- ================= SLIDE 1 : LAB LOGIN ================= -->
 <section id="slide1" class="slide active tropical-bg">
@@ -254,10 +274,6 @@
 
 <!-- ================= SLIDE 2 : LAB HUB ================= -->
 <section id="slide2" class="slide wave-bg">
-  <button id="devSkip" title="dev: skip to slide 3"
-    class="fixed bottom-2 right-2 z-40 opacity-10 hover:opacity-70 transition-opacity text-[10px] mono font-bold text-[var(--ink-soft)] border-2 border-[var(--ink-soft)] rounded-full px-3 py-1 bg-[var(--paper)]">
-    skip
-  </button>
   <div class="max-w-5xl mx-auto px-3 sm:px-5 py-6 sm:py-8">
     <div class="mb-5 text-center sm:text-left">
       <span class="sticker sticker-aqua mono mb-3">📋 LAB REPORT · EXPERIMENT #001</span>
@@ -386,10 +402,15 @@
         <p class="text-base sm:text-lg font-semibold text-[var(--ink-soft)] mb-8">
           You will be incredibly missed.
         </p>
-        <p class="mono text-xs sm:text-sm font-bold text-[var(--ink-soft)]">
+        <p class="mono text-xs sm:text-sm font-bold text-[var(--ink-soft)] mb-8">
           — Signed with utmost respect,<br>
           <span class="text-[var(--coral-deep)] text-base">Your Favorite Class</span>
         </p>
+        <div class="text-center md:text-left">
+          <button id="revisitBtn" class="btn-pop btn-hibiscus mono text-sm">
+            🔬 Want to revisit the Periodic Table of Students?
+          </button>
+        </div>
       </div>
       <div class="flex md:flex-col gap-3 overflow-x-auto md:overflow-visible order-3">
         <img src="pic4.jpg" alt="" class="rounded-2xl border-4 border-white shadow-xl w-40 md:w-full flex-shrink-0" onerror="this.style.display='none'">
@@ -427,6 +448,29 @@ function typeText(el, text, speed=32, cb){
     }
   }, speed);
 }
+
+/* ========== GLOBAL DEV SKIP ==========
+   Works on every slide. Clicking it advances to the next slide.
+   On slide 3 it also makes sure slide3 has been "started" so the
+   typewriter effect fires. On slide 2→3 it also triggers slide3 init. */
+(function(){
+  const slideOrder = ['slide1','slide2','slide3','slide4'];
+  const btn = document.getElementById('devSkipGlobal');
+  btn.addEventListener('click', ()=>{
+    const current = slideOrder.find(id => document.getElementById(id).classList.contains('active'));
+    const idx = slideOrder.indexOf(current);
+    if(idx === -1 || idx >= slideOrder.length - 1) return;
+    const next = slideOrder[idx + 1];
+    goToSlide(current, next);
+    // Side-effects so the next slide is fully usable
+    if(next === 'slide3'){
+      startSlide3();
+    }
+    if(next === 'slide2'){
+      initSlide2Guard();
+    }
+  });
+})();
 
 /* ========== SLIDE 1 : LOGIN ========== */
 (function(){
@@ -515,10 +559,7 @@ function typeText(el, text, speed=32, cb){
   typeText(document.getElementById('typeLine'), 'Enter Your Name:', 45);
 })();
 
-/* ========== SLIDE 2 : PERIODIC TABLE ==========
-   10-col silhouette. Row 6 now has 10 tiles (At..Hs); row 7 has 1 (Ds).
-   Empty cells invisible.
-   ============================================== */
+/* ========== SLIDE 2 : PERIODIC TABLE ========== */
 const MSG_BANK = [
   "As stable as a noble gas, always there when it mattered — thank you, Sir, for a year we won't forget.",
   "Reactive, brilliant, impossible to replace. This class was our favourite compound.",
@@ -577,8 +618,6 @@ const students = [
   {z:110, sym:'Ds', mass:'[281]',   cat:'transition',  name:'Devdutt S',             msg:MSG_BANK[3]},
 ];
 
-/* 10-col silhouette. Row 6 now ends with Md + Hs (fills the 2 empty slots
-   you circled). Row 7 has only Ds. */
 const LAYOUT = [
   /* Row 1 */ [0, null, null, null, null, null, null, null, null, null],
   /* Row 2 */ [1, null, null, null, null, null, null, 2, 3, 4],
@@ -678,10 +717,6 @@ document.getElementById('goSlide3').addEventListener('click', ()=>{
   goToSlide('slide2','slide3');
   startSlide3();
 });
-document.getElementById('devSkip').addEventListener('click', ()=>{
-  goToSlide('slide2','slide3');
-  startSlide3();
-});
 let guardActive = false;
 function initSlide2Guard(){ guardActive = true; }
 window.addEventListener('beforeunload', function(e){
@@ -719,6 +754,13 @@ document.getElementById('dropBtn').addEventListener('click', ()=>{
 });
 document.getElementById('toSlide4').addEventListener('click', ()=>{
   goToSlide('slide3','slide4');
+});
+
+/* ========== SLIDE 4 : REVISIT BUTTON ==========
+   Takes you back to the Periodic Table slide. */
+document.getElementById('revisitBtn').addEventListener('click', ()=>{
+  goToSlide('slide4','slide2');
+  initSlide2Guard();
 });
 </script>
 </body>

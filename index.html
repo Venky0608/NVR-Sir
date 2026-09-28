@@ -187,14 +187,42 @@
     box-shadow:0 1px 3px rgba(0,0,0,0.25);}
   .legend-item{display:flex;align-items:center;gap:6px;white-space:nowrap;}
 
+  /* ===== MODAL — bigger card, taller message area ===== */
   .modal-backdrop{position:fixed;inset:0;background:rgba(26,26,46,.6);backdrop-filter:blur(10px);
     display:flex;align-items:center;justify-content:center;padding:20px;z-index:50;
     animation:modalBgIn .25s ease;}
   @keyframes modalBgIn{from{opacity:0;}to{opacity:1;}}
   .modal-card{background:var(--paper);border:4px solid var(--ink);border-radius:24px;
-    max-width:440px;width:100%;padding:28px;position:relative;
-    box-shadow:10px 10px 0 var(--coral);animation:modalIn .35s cubic-bezier(.34,1.56,.64,1);}
+    max-width: 720px;           /* was 440px — much wider */
+    width:100%;
+    max-height: 88vh;           /* keep it inside the viewport */
+    display:flex;
+    flex-direction:column;
+    padding:32px 36px;          /* roomier */
+    position:relative;
+    box-shadow:10px 10px 0 var(--coral);
+    animation:modalIn .35s cubic-bezier(.34,1.56,.64,1);}
   @keyframes modalIn{from{transform:scale(.9) rotate(-2deg);opacity:0;}to{transform:scale(1) rotate(0);opacity:1;}}
+
+  /* Message body scrolls if it's really long, card itself never grows past 88vh */
+  .modal-body{
+    flex:1 1 auto;
+    min-height:0;                /* allows the child to scroll */
+    display:flex;
+    flex-direction:column;
+  }
+  .modal-scroll{
+    flex:1 1 auto;
+    min-height:0;
+    overflow-y:auto;
+    padding-right:8px;
+  }
+  .modal-scroll::-webkit-scrollbar{width:10px;}
+  .modal-scroll::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--mango),var(--coral));border-radius:8px;}
+
+  @media(min-width:1024px){
+    .modal-card{max-width: 820px; padding:36px 44px;}
+  }
 
   .hazard-btn{width:220px;height:220px;border-radius:9999px;
     background:radial-gradient(circle at 32% 28%,#FFE066 0%,var(--mango) 35%,var(--sunset) 70%,var(--coral-deep) 100%);
@@ -311,25 +339,25 @@
 
   <div id="studentModal" class="modal-backdrop hidden">
     <div class="modal-card">
-      <button id="closeModal" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-[var(--coral)] text-white font-black text-lg leading-none hover:rotate-90 transition-transform duration-200 flex items-center justify-center">✕</button>
-      <span class="sticker sticker-mango mono">ELEMENTAL LOG</span>
-      <div class="flex items-baseline gap-3 mt-4 mb-1">
-        <span id="mNum" class="mono text-xs font-bold opacity-60"></span>
-        <h3 id="mSym" class="text-4xl font-black text-[var(--coral-deep)]"></h3>
-        <span id="mMass" class="mono text-xs font-bold opacity-60 ml-auto"></span>
+      <button id="closeModal" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-[var(--coral)] text-white font-black text-lg leading-none hover:rotate-90 transition-transform duration-200 flex items-center justify-center">✕</button>
+      <span class="sticker sticker-mango mono" style="align-self:flex-start;">ELEMENTAL LOG</span>
+      <div class="flex items-baseline gap-3 mt-4 mb-1 flex-wrap">
+        <span id="mNum" class="mono text-sm font-bold opacity-60"></span>
+        <h3 id="mSym" class="text-5xl font-black text-[var(--coral-deep)]"></h3>
+        <span id="mMass" class="mono text-sm font-bold opacity-60 ml-auto"></span>
       </div>
-      <p id="mName" class="text-lg font-extrabold mb-4 text-[var(--palm)]"></p>
-      <div class="border-t-2 border-dashed border-[var(--ink)]/20 pt-4">
-        <p class="mono text-[10px] font-bold tracking-wide opacity-60 mb-2">PROPERTIES / PERSONAL MESSAGE</p>
-        <div class="max-h-48 overflow-y-auto pr-1">
-          <p id="mMsg" class="text-sm leading-relaxed font-medium"></p>
+      <p id="mName" class="text-xl font-extrabold mb-4 text-[var(--palm)]"></p>
+      <div class="modal-body">
+        <div class="border-t-2 border-dashed border-[var(--ink)]/20 pt-4 modal-scroll">
+          <p class="mono text-[10px] font-bold tracking-wide opacity-60 mb-3">PROPERTIES / PERSONAL MESSAGE</p>
+          <p id="mMsg" class="text-base leading-relaxed font-medium"></p>
         </div>
       </div>
     </div>
   </div>
 
   <div id="allDoneModal" class="modal-backdrop hidden">
-    <div class="modal-card text-center" style="box-shadow:10px 10px 0 var(--palm);">
+    <div class="modal-card text-center" style="box-shadow:10px 10px 0 var(--palm); max-width:520px;">
       <div class="text-5xl mb-3">🔬</div>
       <p class="text-lg sm:text-xl font-black mb-6 text-ocean-gradient leading-tight">
         ALL DATA COLLECTED.<br>READY TO TEST EXOTHERMIC REACTION?
@@ -449,10 +477,7 @@ function typeText(el, text, speed=32, cb){
   }, speed);
 }
 
-/* ========== GLOBAL DEV SKIP ==========
-   Works on every slide. Clicking it advances to the next slide.
-   On slide 3 it also makes sure slide3 has been "started" so the
-   typewriter effect fires. On slide 2→3 it also triggers slide3 init. */
+/* ========== GLOBAL DEV SKIP ========== */
 (function(){
   const slideOrder = ['slide1','slide2','slide3','slide4'];
   const btn = document.getElementById('devSkipGlobal');
@@ -462,13 +487,8 @@ function typeText(el, text, speed=32, cb){
     if(idx === -1 || idx >= slideOrder.length - 1) return;
     const next = slideOrder[idx + 1];
     goToSlide(current, next);
-    // Side-effects so the next slide is fully usable
-    if(next === 'slide3'){
-      startSlide3();
-    }
-    if(next === 'slide2'){
-      initSlide2Guard();
-    }
+    if(next === 'slide3'){ startSlide3(); }
+    if(next === 'slide2'){ initSlide2Guard(); }
   });
 })();
 
@@ -597,7 +617,7 @@ const students = [
   {z:49,  sym:'In', mass:'114.818', cat:'post',        name:'VIhaaN Jasti',          msg:MSG_BANK[0]},
   {z:56,  sym:'Ba', mass:'137.327', cat:'alkaline',    name:'Ryan AbooBAcker',       msg:MSG_BANK[1]},
   {z:57,  sym:'La', mass:'138.905', cat:'lanthanide',  name:'Mehul shukLA',          msg: "Thank you, sir, for your time with us and for the free life lessons and palm readings."},
-  {z:62,  sym:'Sm', mass:'150.36',  cat:'lanthanide',  name:'Akilan SatiShkuMar',    msg: "Everyone say that the teacher-student relationship is one of the most sacred. I had never felt it until I was there with you. More than as a teacher, I look up to you as a great man. Even though chemistry is my weak subject, the little I do in chemistry is because of my love for you, not for the subject. You will always be my best chemistry teacher, and there are not enough words in this world to express my love towards you. Thank you so much sir for all the things that you have taught into, and for all the things you have given advice on"},
+  {z:62,  sym:'Sm', mass:'150.36',  cat:'lanthanide',  name:'Akilan SatiShkuMar',    msg: "Everyone say that the teacher-student relationship is one of the most sacred. I have never felt it until I met you. More than as a teacher, I look up to you as a great man. Even though chemistry is my weak subject, the little I do in chemistry is for the love of you, not for the subject. You will always be my best chemistry teacher, and there aren't enough words in this world to express my love towards you. Thank you so much, sir, for all the things that you have taught and for all the things you have given advice on."},
   {z:67,  sym:'Ho', mass:'164.930', cat:'lanthanide',  name:'Aadhav AsHOk',          msg:MSG_BANK[4]},
   {z:68,  sym:'Er', mass:'167.259', cat:'lanthanide',  name:'Atharv VERma',          msg:MSG_BANK[5]},
   {z:73,  sym:'Ta', mass:'180.948', cat:'transition',  name:'TAshvi Mishra',         msg:MSG_BANK[0]},
@@ -684,6 +704,9 @@ function openStudent(st, tile){
   document.getElementById('mName').textContent = st.name;
   document.getElementById('mMsg').textContent = st.msg;
   modal.classList.remove('hidden');
+  // scroll the message area back to top each time
+  const scroller = modal.querySelector('.modal-scroll');
+  if(scroller) scroller.scrollTop = 0;
   if(!openedSet.has(st.z)){
     openedSet.add(st.z);
     tile.classList.add('opened');
@@ -756,8 +779,7 @@ document.getElementById('toSlide4').addEventListener('click', ()=>{
   goToSlide('slide3','slide4');
 });
 
-/* ========== SLIDE 4 : REVISIT BUTTON ==========
-   Takes you back to the Periodic Table slide. */
+/* ========== SLIDE 4 : REVISIT BUTTON ========== */
 document.getElementById('revisitBtn').addEventListener('click', ()=>{
   goToSlide('slide4','slide2');
   initSlide2Guard();

@@ -11,10 +11,33 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root{
-    --coral:#FF6B6B; --coral-deep:#E63946; --mango:#FFB84D; --mango-deep:#FF8C42;
-    --sunset:#FF5E5B; --aqua:#4ECDC4; --aqua-deep:#1A9E96; --lagoon:#45B7D1;
-    --palm:#2EC4B6; --lime:#C7F464; --sand:#FFE66D; --hibiscus:#FF4D9D;
-    --grape:#A06CD5; --cream:#FFF8E7; --ink:#1A1A2E; --ink-soft:#2D2D44; --paper:#FFFDF7;
+    /* Tulum Poster palette */
+    --cream:#FFF8E7;
+    --sand:#F2D9A8;
+    --clay:#D97C5A;
+    --terracotta:#C1523C;
+    --cobalt:#2A6FB0;
+    --turquoise:#2DC5C0;
+    --mint:#A8E6CF;
+    --sun:#FFB627;
+
+    /* Semantic aliases (keeps all existing var() references working) */
+    --coral:#D97C5A;          /* clay — replaces candy coral */
+    --coral-deep:#C1523C;     /* terracotta */
+    --mango:#FFB627;          /* sun */
+    --mango-deep:#E8942A;     /* deeper sun */
+    --sunset:#E8A23C;
+    --aqua:#2DC5C0;           /* turquoise */
+    --aqua-deep:#1E9E96;
+    --lagoon:#4FB8E0;
+    --palm:#2A8F8A;
+    --lime:#A8E6CF;           /* mint */
+    --sand-accent:#F2D9A8;
+    --hibiscus:#D64A7A;
+    --grape:#8A4FBF;
+    --ink:#17313A;
+    --ink-soft:#35525C;
+    --paper:#FFFDF5;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;min-height:100%;-webkit-font-smoothing:antialiased;
@@ -22,13 +45,13 @@
   html{scroll-padding-top:env(safe-area-inset-top,0px);}
   body{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
     background:
-      radial-gradient(circle at 15% 10%, rgba(255,184,77,0.35) 0%, transparent 45%),
-      radial-gradient(circle at 85% 20%, rgba(255,107,107,0.30) 0%, transparent 50%),
-      radial-gradient(circle at 50% 90%, rgba(78,205,196,0.35) 0%, transparent 55%),
-      linear-gradient(180deg, #FFF3D6 0%, #FFE3C2 40%, #FFD1B8 100%);
+      radial-gradient(circle at 20% 0%,   rgba(255,182,39,0.35) 0%, transparent 45%),
+      radial-gradient(circle at 85% 15%,  rgba(217,124,90,0.28) 0%, transparent 50%),
+      radial-gradient(circle at 50% 100%, rgba(45,197,192,0.30) 0%, transparent 55%),
+      linear-gradient(180deg, #FFF8E7 0%, #F2D9A8 60%, #E8C79A 100%);
     background-attachment:fixed;}
   .mono{font-family:'JetBrains Mono',ui-monospace,monospace;}
-  ::selection{background:var(--hibiscus);color:#fff;}
+  ::selection{background:var(--turquoise);color:#fff;}
 
   .slide{display:none;min-height:100vh;position:relative;}
   .slide.active{display:block;}
@@ -37,43 +60,42 @@
   @keyframes fadeOut{to{opacity:0;transform:scale(.98);}}
   @keyframes fadeIn{from{opacity:0;transform:scale(1.01);}to{opacity:1;transform:scale(1);}}
 
+  /* Subtle organic texture instead of candy stripes */
   .tropical-bg{background-image:
-      radial-gradient(circle at 10% 15%, rgba(255,255,255,0.5) 0%, transparent 25%),
-      radial-gradient(circle at 90% 85%, rgba(255,255,255,0.4) 0%, transparent 30%),
-      repeating-linear-gradient(45deg, rgba(255,255,255,0.25) 0px, rgba(255,255,255,0.25) 2px, transparent 2px, transparent 18px);
-    background-size:auto,auto,40px 40px;}
+      radial-gradient(circle at 12% 18%, rgba(255,255,255,0.35) 0%, transparent 28%),
+      radial-gradient(circle at 88% 82%, rgba(255,255,255,0.28) 0%, transparent 32%);}
   .wave-bg{background-image:
-      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.35) 0%, transparent 20%),
-      radial-gradient(circle at 80% 70%, rgba(255,255,255,0.35) 0%, transparent 20%);}
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.30) 0%, transparent 25%),
+      radial-gradient(circle at 80% 70%, rgba(45,197,192,0.15) 0%, transparent 28%);}
 
-  .text-sunset-gradient{background:linear-gradient(135deg,var(--coral) 0%,var(--mango) 45%,var(--hibiscus) 100%);
+  .text-sunset-gradient{background:linear-gradient(135deg,var(--clay) 0%,var(--terracotta) 55%,var(--hibiscus) 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent;}
-  .text-ocean-gradient{background:linear-gradient(135deg,var(--lagoon) 0%,var(--palm) 50%,var(--lime) 100%);
+  .text-ocean-gradient{background:linear-gradient(135deg,var(--cobalt) 0%,var(--turquoise) 55%,var(--palm) 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent;}
-  .text-mango-gradient{background:linear-gradient(135deg,var(--mango-deep) 0%,var(--sunset) 60%,var(--hibiscus) 100%);
+  .text-mango-gradient{background:linear-gradient(135deg,var(--mango-deep) 0%,var(--clay) 60%,var(--hibiscus) 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent;}
 
   .sticker{display:inline-block;padding:6px 14px;border-radius:999px;font-weight:700;
     font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;
-    box-shadow:0 4px 14px rgba(0,0,0,0.12);transform:rotate(-2deg);}
-  .sticker-coral{background:var(--coral);color:#fff;transform:rotate(-3deg);}
-  .sticker-mango{background:var(--mango);color:#5A2E00;}
-  .sticker-aqua{background:var(--aqua);color:#003330;transform:rotate(2deg);}
-  .sticker-lime{background:var(--lime);color:#3A4D00;transform:rotate(-2deg);}
-  .sticker-hibiscus{background:var(--hibiscus);color:#fff;transform:rotate(3deg);}
+    box-shadow:0 3px 10px rgba(23,49,58,0.14);transform:rotate(-1.5deg);}
+  .sticker-coral{background:var(--clay);color:#fff;transform:rotate(-2deg);}
+  .sticker-mango{background:var(--sun);color:#4A2A00;}
+  .sticker-aqua{background:var(--turquoise);color:#00302E;transform:rotate(1.5deg);}
+  .sticker-lime{background:var(--mint);color:#1D4A3A;transform:rotate(-1.5deg);}
+  .sticker-hibiscus{background:var(--hibiscus);color:#fff;transform:rotate(2deg);}
 
-  .slot{width:54px;height:68px;border:3px dashed rgba(26,26,46,0.25);border-radius:16px;
+  .slot{width:54px;height:68px;border:3px dashed rgba(23,49,58,0.22);border-radius:16px;
     display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:800;
     background:var(--paper);color:var(--ink);
-    transition:all .25s cubic-bezier(.34,1.56,.64,1);box-shadow:0 4px 12px rgba(0,0,0,0.08);}
+    transition:all .25s cubic-bezier(.34,1.56,.64,1);box-shadow:0 3px 10px rgba(23,49,58,0.08);}
   @media(min-width:480px){.slot{width:66px;height:80px;font-size:1.6rem;}}
   .slot.filled{border-style:solid;border-color:var(--mango-deep);
-    background:linear-gradient(135deg,#FFE9B8,var(--mango) 60%,var(--mango-deep));
-    color:#5A2E00;box-shadow:0 6px 20px rgba(255,184,77,.6);transform:translateY(-3px) rotate(-2deg);}
-  .slot.correct-flash{border-color:var(--palm);
-    background:linear-gradient(135deg,var(--lime),var(--palm));color:#003330;
-    box-shadow:0 0 32px rgba(46,196,182,.8);animation:slotPop .45s ease;}
-  .slot.wrong-flash{border-color:var(--coral-deep);background:#FFD5D5;color:var(--coral-deep);}
+    background:linear-gradient(135deg,#FFE9B0,var(--sun) 60%,var(--mango-deep));
+    color:#4A2A00;box-shadow:0 6px 18px rgba(232,148,42,.45);transform:translateY(-3px) rotate(-2deg);}
+  .slot.correct-flash{border-color:var(--turquoise);
+    background:linear-gradient(135deg,var(--mint),var(--turquoise));color:#00302E;
+    box-shadow:0 0 30px rgba(45,197,192,.7);animation:slotPop .45s ease;}
+  .slot.wrong-flash{border-color:var(--terracotta);background:#FAD3CA;color:var(--terracotta);}
   @keyframes slotPop{50%{transform:scale(1.15) rotate(3deg);}}
   .shake{animation:shake .42s ease;}
   @keyframes shake{10%,90%{transform:translateX(-2px);}20%,80%{transform:translateX(4px);}
@@ -82,21 +104,20 @@
   .elt-tile{aspect-ratio:1/1;border:none;border-radius:14px;display:flex;align-items:center;
     justify-content:center;font-weight:800;font-size:1rem;color:#fff;cursor:pointer;
     transition:transform .15s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;user-select:none;
-    box-shadow:0 5px 0 rgba(0,0,0,0.15),0 8px 16px rgba(0,0,0,0.1);
-    text-shadow:0 1px 2px rgba(0,0,0,0.15);}
+    box-shadow:0 6px 14px rgba(23,49,58,0.18);}
   .elt-tile:hover{transform:translateY(-4px) rotate(-3deg);
-    box-shadow:0 9px 0 rgba(0,0,0,0.15),0 14px 24px rgba(0,0,0,0.15);}
-  .elt-tile:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,0.15);}
+    box-shadow:0 12px 22px rgba(23,49,58,0.25);}
+  .elt-tile:active{transform:translateY(1px);box-shadow:0 3px 8px rgba(23,49,58,0.2);}
 
-  /* ===== PERIODIC TABLE — 10-col silhouette, tighter ===== */
+  /* ===== PERIODIC TABLE ===== */
   .ptable{
     display:grid;
     grid-template-columns:repeat(10, minmax(0,1fr));
     gap:7px;
     padding:14px 12px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.45));
+    background:linear-gradient(180deg, rgba(255,253,245,0.85), rgba(255,253,245,0.55));
     border-radius:22px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 40px rgba(23,49,58,0.10);
     backdrop-filter: blur(6px);
     width:100%;
     max-width: 760px;
@@ -105,15 +126,15 @@
   .student-tile{
     position:relative;
     aspect-ratio: 1 / 1.05;
-    border:2px solid rgba(255,255,255,0.7);
+    border:2px solid rgba(255,255,255,0.65);
     border-radius:10px;
     padding:3px 2px;
     cursor:pointer;
     transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
     overflow:hidden;
     color:#FFFFFF;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.14);
+    text-shadow: 0 1px 1px rgba(23,49,58,0.25);
+    box-shadow: 0 4px 10px rgba(23,49,58,0.16);
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -129,8 +150,8 @@
     background:none !important;
   }
   .student-tile:hover:not(.empty){
-    transform: translateY(-4px) scale(1.12);
-    box-shadow: 0 12px 22px rgba(0,0,0,0.25);
+    transform: translateY(-4px) scale(1.10);
+    box-shadow: 0 14px 24px rgba(23,49,58,0.28);
     z-index:5;
   }
   .student-tile.opened::after{
@@ -138,10 +159,10 @@
     position:absolute; top:2px; right:2px;
     font-size:.5rem; font-weight:900;
     color:#fff;
-    background:var(--palm);
+    background:var(--turquoise);
     width:12px; height:12px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
-    box-shadow: 0 0 6px rgba(46,196,182,.9);
+    box-shadow: 0 0 6px rgba(45,197,192,.9);
     line-height:1;
   }
   .student-tile .zed{
@@ -155,7 +176,7 @@
     font-size:1rem; font-weight:900;
     line-height:1;
     letter-spacing:.01em;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+    text-shadow: 0 1px 2px rgba(23,49,58,0.30);
     margin:2px 0;
   }
   .student-tile .weight{
@@ -184,30 +205,29 @@
   }
 
   .legend-dot{width:11px;height:11px;border-radius:50%;display:inline-block;flex-shrink:0;
-    box-shadow:0 1px 3px rgba(0,0,0,0.25);}
+    box-shadow:0 1px 3px rgba(23,49,58,0.25);}
   .legend-item{display:flex;align-items:center;gap:6px;white-space:nowrap;}
 
-  /* ===== MODAL — bigger card, taller message area ===== */
-  .modal-backdrop{position:fixed;inset:0;background:rgba(26,26,46,.6);backdrop-filter:blur(10px);
+  /* ===== MODAL ===== */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(23,49,58,.55);backdrop-filter:blur(10px);
     display:flex;align-items:center;justify-content:center;padding:20px;z-index:50;
     animation:modalBgIn .25s ease;}
   @keyframes modalBgIn{from{opacity:0;}to{opacity:1;}}
-  .modal-card{background:var(--paper);border:4px solid var(--ink);border-radius:24px;
-    max-width: 720px;           /* was 440px — much wider */
+  .modal-card{background:var(--paper);border:3px solid var(--ink);border-radius:24px;
+    max-width: 720px;
     width:100%;
-    max-height: 88vh;           /* keep it inside the viewport */
+    max-height: 88vh;
     display:flex;
     flex-direction:column;
-    padding:32px 36px;          /* roomier */
+    padding:32px 36px;
     position:relative;
-    box-shadow:10px 10px 0 var(--coral);
+    box-shadow:0 24px 60px rgba(23,49,58,0.35);
     animation:modalIn .35s cubic-bezier(.34,1.56,.64,1);}
-  @keyframes modalIn{from{transform:scale(.9) rotate(-2deg);opacity:0;}to{transform:scale(1) rotate(0);opacity:1;}}
+  @keyframes modalIn{from{transform:scale(.9);opacity:0;}to{transform:scale(1);opacity:1;}}
 
-  /* Message body scrolls if it's really long, card itself never grows past 88vh */
   .modal-body{
     flex:1 1 auto;
-    min-height:0;                /* allows the child to scroll */
+    min-height:0;
     display:flex;
     flex-direction:column;
   }
@@ -218,9 +238,8 @@
     padding-right:8px;
   }
   .modal-scroll::-webkit-scrollbar{width:10px;}
-  .modal-scroll::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--mango),var(--coral));border-radius:8px;}
+  .modal-scroll::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--sun),var(--clay));border-radius:8px;}
 
-  /* Preserve line breaks / skipped lines exactly as written in each message */
   #mMsg{white-space:pre-wrap;}
 
   @media(min-width:1024px){
@@ -228,38 +247,37 @@
   }
 
   .hazard-btn{width:220px;height:220px;border-radius:9999px;
-    background:radial-gradient(circle at 32% 28%,#FFE066 0%,var(--mango) 35%,var(--sunset) 70%,var(--coral-deep) 100%);
-    border:6px solid var(--cream);color:#5A1A00;font-weight:900;letter-spacing:.04em;font-size:1rem;
+    background:radial-gradient(circle at 32% 28%,#FFD77A 0%,var(--sun) 35%,var(--clay) 72%,var(--terracotta) 100%);
+    border:6px solid var(--cream);color:#4A1A00;font-weight:900;letter-spacing:.04em;font-size:1rem;
     display:flex;align-items:center;justify-content:center;text-align:center;
     animation:bouncePulse 2s ease-in-out infinite;cursor:pointer;
-    box-shadow:0 0 0 10px rgba(255,94,91,.25),0 0 60px rgba(255,140,66,.7),0 20px 40px rgba(230,57,70,.4);
+    box-shadow:0 0 0 10px rgba(217,124,90,.20),0 0 60px rgba(255,182,39,.55),0 20px 40px rgba(193,82,60,.35);
     transition:transform .2s;}
   @media(min-width:480px){.hazard-btn{width:250px;height:250px;font-size:1.15rem;}}
   .hazard-btn:hover{transform:scale(1.05) rotate(-2deg);}
   @keyframes bouncePulse{
-    0%,100%{box-shadow:0 0 0 10px rgba(255,94,91,.25),0 0 50px rgba(255,140,66,.6),0 20px 40px rgba(230,57,70,.4);transform:translateY(0) scale(1);}
-    50%{box-shadow:0 0 0 22px rgba(255,94,91,.08),0 0 90px rgba(255,140,66,.9),0 20px 40px rgba(230,57,70,.4);transform:translateY(-6px) scale(1.02);}
+    0%,100%{box-shadow:0 0 0 10px rgba(217,124,90,.20),0 0 50px rgba(255,182,39,.5),0 20px 40px rgba(193,82,60,.35);transform:translateY(0) scale(1);}
+    50%{box-shadow:0 0 0 22px rgba(217,124,90,.06),0 0 90px rgba(255,182,39,.8),0 20px 40px rgba(193,82,60,.35);transform:translateY(-6px) scale(1.02);}
   }
 
   .btn-pop{display:inline-block;font-weight:800;padding:14px 28px;border-radius:999px;border:none;
     cursor:pointer;transition:transform .15s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;
-    box-shadow:0 6px 0 rgba(0,0,0,0.2),0 10px 24px rgba(0,0,0,0.15);text-shadow:0 1px 2px rgba(0,0,0,0.1);}
-  .btn-pop:hover{transform:translateY(-3px);box-shadow:0 9px 0 rgba(0,0,0,0.2),0 14px 28px rgba(0,0,0,0.2);}
-  .btn-pop:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,0.2);}
-  .btn-palm{background:linear-gradient(135deg,var(--palm),var(--aqua-deep));color:#fff;}
-  .btn-coral{background:linear-gradient(135deg,var(--coral),var(--coral-deep));color:#fff;}
-  .btn-lagoon{background:linear-gradient(135deg,var(--lagoon),var(--palm));color:#fff;}
-  .btn-mango{background:linear-gradient(135deg,var(--mango),var(--mango-deep));color:#5A2E00;}
-  .btn-hibiscus{background:linear-gradient(135deg,var(--hibiscus),var(--coral-deep));color:#fff;}
+    box-shadow:0 6px 16px rgba(23,49,58,0.20);}
+  .btn-pop:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(23,49,58,0.28);}
+  .btn-pop:active{transform:translateY(1px);box-shadow:0 3px 8px rgba(23,49,58,0.2);}
+  .btn-palm{background:linear-gradient(135deg,var(--turquoise),var(--cobalt));color:#fff;}
+  .btn-coral{background:linear-gradient(135deg,var(--clay),var(--terracotta));color:#fff;}
+  .btn-lagoon{background:linear-gradient(135deg,var(--cobalt),var(--turquoise));color:#fff;}
+  .btn-mango{background:linear-gradient(135deg,var(--sun),var(--mango-deep));color:#4A2A00;}
+  .btn-hibiscus{background:linear-gradient(135deg,var(--hibiscus),var(--terracotta));color:#fff;}
 
-  .paper-card{background:var(--paper);border:3px solid var(--ink);border-radius:20px;padding:22px;
-    box-shadow:8px 8px 0 var(--mango);}
-  .paper-card-aqua{box-shadow:8px 8px 0 var(--aqua);}
-  .paper-card-coral{box-shadow:8px 8px 0 var(--coral);}
-  .paper-card-lime{box-shadow:8px 8px 0 var(--lime);}
-  .paper-card-hibiscus{box-shadow:8px 8px 0 var(--hibiscus);}
+  .paper-card{background:var(--paper);border:2px solid var(--ink);border-radius:20px;padding:22px;
+    box-shadow:0 10px 28px rgba(23,49,58,0.12);}
+  .paper-card-aqua{box-shadow:0 10px 28px rgba(45,197,192,0.28);}
+  .paper-card-coral{box-shadow:0 10px 28px rgba(217,124,90,0.30);}
+  .paper-card-lime{box-shadow:0 10px 28px rgba(168,230,207,0.55);}
+  .paper-card-hibiscus{box-shadow:0 10px 28px rgba(214,74,122,0.28);}
 
-  /* Dev skip button — global, present on every slide */
   .dev-skip{
     position:fixed; bottom:10px; right:10px; z-index:45;
     opacity:.18; transition:opacity .2s;
@@ -277,13 +295,13 @@
 
   ::-webkit-scrollbar{width:12px;height:12px;}
   ::-webkit-scrollbar-track{background:transparent;}
-  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--coral),var(--mango));
+  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--clay),var(--sun));
     border-radius:8px;border:2px solid var(--cream);}
 </style>
 </head>
 <body>
 
-<!-- Global dev skip — jumps forward one slide at a time -->
+<!-- Global dev skip -->
 <button id="devSkipGlobal" class="dev-skip" title="dev: skip to next slide">skip ▸</button>
 
 <!-- ================= SLIDE 1 : LAB LOGIN ================= -->
@@ -312,7 +330,7 @@
         The Synthesis of the Perfect Chemistry Class
       </h2>
       <p class="mono text-xs sm:text-sm font-bold text-[var(--ink-soft)]">
-        SUPERVISOR: <span class="text-[var(--coral-deep)]">Prof. Naveen Reddii</span>
+        SUPERVISOR: <span class="text-[var(--terracotta)]">Prof. Naveen Reddii</span>
       </p>
     </div>
     <div class="paper-card paper-card-coral mb-6">
@@ -326,30 +344,30 @@
       <span class="sticker sticker-hibiscus mono">TAP ANY TILE ✨</span>
     </div>
     <div class="flex flex-wrap gap-x-4 gap-y-2 mb-4 mono text-[10px] sm:text-xs font-bold text-[var(--ink-soft)]">
-      <span class="legend-item"><span class="legend-dot" style="background:#FF6B6B"></span>Alkali metal</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#FFB84D"></span>Alkaline earth</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#45B7D1"></span>Transition metal</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#4ECDC4"></span>Post-transition</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#C7F464"></span>Metalloid</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#FFE66D"></span>Nonmetal</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#A06CD5"></span>Halogen</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#7DD3FC"></span>Noble gas</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#FF4D9D"></span>Lanthanide</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#C084FC"></span>Actinide</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#E89B7A"></span>Alkali metal</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#FFCB6B"></span>Alkaline earth</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#4FB8E0"></span>Transition metal</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#4FD4CC"></span>Post-transition</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#B8E8A8"></span>Metalloid</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#FFD77A"></span>Nonmetal</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#C99BE8"></span>Halogen</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#8FCFEF"></span>Noble gas</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#FF9BB8"></span>Lanthanide</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#C9A8E8"></span>Actinide</span>
     </div>
     <div id="ptable" class="ptable mb-6"></div>
   </div>
 
   <div id="studentModal" class="modal-backdrop hidden">
     <div class="modal-card">
-      <button id="closeModal" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-[var(--coral)] text-white font-black text-lg leading-none hover:rotate-90 transition-transform duration-200 flex items-center justify-center">✕</button>
+      <button id="closeModal" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-[var(--clay)] text-white font-black text-lg leading-none hover:rotate-90 transition-transform duration-200 flex items-center justify-center">✕</button>
       <span class="sticker sticker-mango mono" style="align-self:flex-start;">ELEMENTAL LOG</span>
       <div class="flex items-baseline gap-3 mt-4 mb-1 flex-wrap">
         <span id="mNum" class="mono text-sm font-bold opacity-60"></span>
-        <h3 id="mSym" class="text-5xl font-black text-[var(--coral-deep)]"></h3>
+        <h3 id="mSym" class="text-5xl font-black text-[var(--terracotta)]"></h3>
         <span id="mMass" class="mono text-sm font-bold opacity-60 ml-auto"></span>
       </div>
-      <p id="mName" class="text-xl font-extrabold mb-4 text-[var(--palm)]"></p>
+      <p id="mName" class="text-xl font-extrabold mb-4 text-[var(--cobalt)]"></p>
       <div class="modal-body">
         <div class="border-t-2 border-dashed border-[var(--ink)]/20 pt-4 modal-scroll">
           <p class="mono text-[10px] font-bold tracking-wide opacity-60 mb-3">PROPERTIES / PERSONAL MESSAGE</p>
@@ -360,7 +378,7 @@
   </div>
 
   <div id="allDoneModal" class="modal-backdrop hidden">
-    <div class="modal-card text-center" style="box-shadow:10px 10px 0 var(--palm); max-width:520px;">
+    <div class="modal-card text-center" style="max-width:520px;">
       <div class="text-5xl mb-3">🔬</div>
       <p class="text-lg sm:text-xl font-black mb-6 text-ocean-gradient leading-tight">
         ALL DATA COLLECTED.<br>READY TO TEST EXOTHERMIC REACTION?
@@ -379,7 +397,7 @@
         <h2 class="text-2xl sm:text-4xl font-black mb-4 text-sunset-gradient leading-tight">
           Ready for an experiment?
         </h2>
-        <p class="mono text-[var(--coral-deep)] text-sm sm:text-lg mb-10 leading-relaxed min-h-[3em] font-bold" id="warnLine"></p>
+        <p class="mono text-[var(--terracotta)] text-sm sm:text-lg mb-10 leading-relaxed min-h-[3em] font-bold" id="warnLine"></p>
         <button id="dropBtn" class="hazard-btn mono mx-auto">
           <span style="line-height:1.25;">DROP<br>SODIUM<br>IN WATER 💥</span>
         </button>
@@ -435,7 +453,7 @@
         </p>
         <p class="mono text-xs sm:text-sm font-bold text-[var(--ink-soft)] mb-8">
           — Signed with utmost respect,<br>
-          <span class="text-[var(--coral-deep)] text-base">N-Star</span>
+          <span class="text-[var(--terracotta)] text-base">N-Star</span>
         </p>
         <div class="text-center md:text-left">
           <button id="revisitBtn" class="btn-pop btn-hibiscus mono text-sm">
@@ -510,14 +528,14 @@ function typeText(el, text, speed=32, cb){
   }
 
   const TILE_COLORS = [
-    'linear-gradient(135deg,#FF6B6B,#E63946)',
-    'linear-gradient(135deg,#FFB84D,#FF8C42)',
-    'linear-gradient(135deg,#4ECDC4,#1A9E96)',
-    'linear-gradient(135deg,#45B7D1,#2E86AB)',
-    'linear-gradient(135deg,#2EC4B6,#0F8A80)',
-    'linear-gradient(135deg,#FF4D9D,#C9187A)',
-    'linear-gradient(135deg,#A06CD5,#7B4FBF)',
-    'linear-gradient(135deg,#FFE66D,#F4B400)'
+    'linear-gradient(160deg,#E89B7A,#C1523C)',
+    'linear-gradient(160deg,#FFCB6B,#E08A2A)',
+    'linear-gradient(160deg,#4FD4CC,#1E9E96)',
+    'linear-gradient(160deg,#4FB8E0,#2A6FB0)',
+    'linear-gradient(160deg,#5FB8B0,#2A8F8A)',
+    'linear-gradient(160deg,#FF9BB8,#D64A7A)',
+    'linear-gradient(160deg,#C99BE8,#8A4FBF)',
+    'linear-gradient(160deg,#FFD77A,#E8A82A)'
   ];
 
   const keypadElements = [
@@ -556,7 +574,7 @@ function typeText(el, text, speed=32, cb){
         locked = true;
         document.querySelectorAll('.slot').forEach(s=>s.classList.add('correct-flash'));
         statusLine.textContent = '🎉 IDENTITY VERIFIED. ACCESS GRANTED.';
-        statusLine.style.color = 'var(--palm)';
+        statusLine.style.color = 'var(--turquoise)';
         setTimeout(()=>{
           goToSlide('slide1','slide2');
           initSlide2Guard();
@@ -565,7 +583,7 @@ function typeText(el, text, speed=32, cb){
     } else {
       locked = true;
       statusLine.textContent = '✕ ACCESS DENIED — SEQUENCE RESET.';
-      statusLine.style.color = 'var(--coral-deep)';
+      statusLine.style.color = 'var(--terracotta)';
       document.querySelectorAll('.slot').forEach(s=>s.classList.add('wrong-flash','shake'));
       setTimeout(()=>{
         document.querySelectorAll('.slot').forEach(s=>{
@@ -663,17 +681,18 @@ const LAYOUT = [
   /* Row 7 */ [45, null, null, null, null, null, null, null, null, null],
 ];
 
+/* Tulum Poster — tonal light→dark gradients per category */
 const CATEGORY_GRADIENTS = {
-  alkali:     'linear-gradient(135deg,#FF6B6B,#E63946)',
-  alkaline:   'linear-gradient(135deg,#FFB84D,#FF8C42)',
-  transition: 'linear-gradient(135deg,#45B7D1,#2E86AB)',
-  post:       'linear-gradient(135deg,#4ECDC4,#1A9E96)',
-  metalloid:  'linear-gradient(135deg,#C7F464,#8FBF2A)',
-  nonmetal:   'linear-gradient(135deg,#FFE66D,#F4B400)',
-  halogen:    'linear-gradient(135deg,#A06CD5,#7B4FBF)',
-  noble:      'linear-gradient(135deg,#7DD3FC,#3B82F6)',
-  lanthanide: 'linear-gradient(135deg,#FF4D9D,#C9187A)',
-  actinide:   'linear-gradient(135deg,#C084FC,#8B5CF6)',
+  alkali:     'linear-gradient(160deg,#E89B7A,#C1523C)',
+  alkaline:   'linear-gradient(160deg,#FFCB6B,#E08A2A)',
+  transition: 'linear-gradient(160deg,#4FB8E0,#2A6FB0)',
+  post:       'linear-gradient(160deg,#4FD4CC,#1E9E96)',
+  metalloid:  'linear-gradient(160deg,#B8E8A8,#6BAF52)',
+  nonmetal:   'linear-gradient(160deg,#FFD77A,#E8A82A)',
+  halogen:    'linear-gradient(160deg,#C99BE8,#8A4FBF)',
+  noble:      'linear-gradient(160deg,#8FCFEF,#3F8FC4)',
+  lanthanide: 'linear-gradient(160deg,#FF9BB8,#D64A7A)',
+  actinide:   'linear-gradient(160deg,#C9A8E8,#7A4FB0)',
 };
 
 const openedSet = new Set();
@@ -719,7 +738,6 @@ function openStudent(st, tile){
   document.getElementById('mName').textContent = st.name;
   document.getElementById('mMsg').textContent = st.msg;
   modal.classList.remove('hidden');
-  // scroll the message area back to top each time
   const scroller = modal.querySelector('.modal-scroll');
   if(scroller) scroller.scrollTop = 0;
   if(!openedSet.has(st.z)){

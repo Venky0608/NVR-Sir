@@ -128,7 +128,7 @@
       radial-gradient(circle at 20% 30%, rgba(34,211,238,0.16) 0%, transparent 30%),
       radial-gradient(circle at 80% 70%, rgba(168,85,247,0.18) 0%, transparent 32%);}
 
-  /* ===== CONSTELLATION OVERLAY (behind content) ===== */
+  /* ===== CONSTELLATION OVERLAY ===== */
   .constellation{
     position:absolute;inset:0;pointer-events:none;
     z-index:0;
@@ -151,7 +151,7 @@
   @keyframes linePulse{0%,100%{opacity:.35;}50%{opacity:.75;}}
   @keyframes nodePulse{0%,100%{r:2;}50%{r:3.2;}}
 
-    .constellation .line.link{
+  .constellation .line.link{
     stroke:rgba(201,155,255,0.28);
     stroke-width:0.8;
     stroke-dasharray:2 8;
@@ -381,6 +381,77 @@
   .paper-card-lime{box-shadow:0 0 40px rgba(52,211,153,0.30),0 10px 30px rgba(0,0,0,0.5),inset 0 0 30px rgba(52,211,153,0.08);}
   .paper-card-hibiscus{box-shadow:0 0 40px rgba(168,85,247,0.40),0 10px 30px rgba(0,0,0,0.5),inset 0 0 30px rgba(168,85,247,0.10);}
 
+  /* ===== SLIDE 4 : STAT CARDS ===== */
+  .stat-card{
+    position:relative;
+    padding:18px 18px 16px;
+    border-radius:18px;
+    background:linear-gradient(160deg, rgba(30,24,80,0.55), rgba(20,16,58,0.35));
+    border:1px solid rgba(168,85,247,0.22);
+    box-shadow:0 0 30px rgba(168,85,247,0.10), inset 0 0 24px rgba(168,85,247,0.05);
+    transition:transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s, border-color .35s;
+    overflow:visible;
+  }
+  .stat-card:hover{
+    transform:translateY(-3px);
+    border-color:rgba(251,191,36,0.45);
+    box-shadow:0 0 40px rgba(251,191,36,0.28), inset 0 0 26px rgba(251,191,36,0.08);
+  }
+  .stat-emoji{
+    display:inline-block;
+    font-size:20px;
+    line-height:1;
+    opacity:.9;
+    margin-bottom:12px;
+  }
+  .stat-number{
+    font-size:26px;
+    font-weight:900;
+    line-height:1.05;
+    letter-spacing:-.01em;
+    margin-bottom:4px;
+  }
+  .stat-label{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    line-height:1.35;
+  }
+  .stat-sub{
+    font-size:10px;
+    font-weight:700;
+    color:rgba(168,168,208,0.7);
+    margin-top:6px;
+    letter-spacing:.02em;
+  }
+  .stat-orbit{
+    position:absolute;
+    inset:-2px;
+    border-radius:inherit;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .35s ease;
+  }
+  .stat-orbit::before{
+    content:'';
+    position:absolute;
+    top:-3px; left:50%;
+    width:6px; height:6px;
+    margin-left:-3px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 0 8px #fff, 0 0 16px var(--star-gold), 0 0 24px rgba(251,191,36,0.7);
+    transform-origin:3px calc(50% + 60px);
+  }
+  .stat-card:hover .stat-orbit{opacity:1;}
+  .stat-card:hover .stat-orbit::before{animation:orbitSpin 3s linear infinite;}
+  @keyframes orbitSpin{
+    from{ transform:rotate(0deg); }
+    to  { transform:rotate(360deg); }
+  }
+
   .dev-skip{
     position:fixed; bottom:10px; right:10px; z-index:45;
     opacity:.25; transition:opacity .2s;
@@ -397,7 +468,6 @@
     border-radius:8px;border:2px solid var(--void);
     box-shadow:0 0 8px rgba(168,85,247,0.6);}
 
-  /* Sound toggle button */
   .sound-toggle{
     position:fixed;bottom:10px;left:10px;z-index:45;
     opacity:.55;transition:opacity .2s;
@@ -423,15 +493,10 @@
 
 <!-- ================= SLIDE 1 : LAB LOGIN ================= -->
 <section id="slide1" class="slide active tropical-bg">
-  <!-- Constellation: N + Trishul + Heart -->
-    <!-- Constellation: NStar (N + Trishul + Heart) — top-right cluster -->
-    <!-- ══════ CONSTELLATION: NSTAR ══════ -->
-    <!-- ══════ CONSTELLATION: NSTAR ══════ -->
   <div class="constellation" aria-hidden="true">
     <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice"
          style="position:absolute;inset:0;width:100%;height:100%;">
 
-      <!-- ══════════════════ N (top-left) ══════════════════ -->
       <line class="line" x1="90"  y1="80"  x2="90"  y2="360"/>
       <line class="line" x1="90"  y1="80"  x2="290" y2="360"/>
       <line class="line" x1="290" y1="80"  x2="290" y2="360"/>
@@ -444,8 +509,6 @@
       <circle class="node"     cx="290" cy="220" r="1.8"/>
       <circle class="node big" cx="290" cy="360" r="3"/>
 
-           <!-- ══════════════════ STAR (top-center-left, next to N) ══════════════════ -->
-      <!-- 5-point star, drawn in outline order: T, R, BL, BR, L, back to T -->
       <line class="line" x1="580" y1="60"  x2="640" y2="220"/>
       <line class="line" x1="640" y1="220" x2="500" y2="130"/>
       <line class="line" x1="500" y1="130" x2="660" y2="130"/>
@@ -460,22 +523,16 @@
       <circle class="node big" cx="580" cy="130" r="2.4"/>
       <circle class="node"     cx="580" cy="175" r="2"/>
 
-      <!-- ══════════════════ TRISHUL (top-right) ══════════════════ -->
-      <!-- Crossbar -->
       <line class="line" x1="1140" y1="280" x2="1320" y2="280"/>
-      <!-- Center spike (tall) -->
       <line class="line" x1="1230" y1="60"  x2="1230" y2="280"/>
-      <!-- Left prong (curved, 4 segs) -->
       <line class="line" x1="1230" y1="200" x2="1180" y2="180"/>
       <line class="line" x1="1180" y1="180" x2="1150" y2="140"/>
       <line class="line" x1="1150" y1="140" x2="1148" y2="100"/>
       <line class="line" x1="1148" y1="100" x2="1158" y2="70"/>
-      <!-- Right prong (curved, 4 segs) -->
       <line class="line" x1="1230" y1="200" x2="1280" y2="180"/>
       <line class="line" x1="1280" y1="180" x2="1310" y2="140"/>
       <line class="line" x1="1310" y1="140" x2="1312" y2="100"/>
       <line class="line" x1="1312" y1="100" x2="1302" y2="70"/>
-      <!-- Handle stub -->
       <line class="line" x1="1230" y1="280" x2="1230" y2="320"/>
 
       <circle class="node big" cx="1230" cy="60"  r="3.4"/>
@@ -494,7 +551,6 @@
       <circle class="node"     cx="1320" cy="280" r="2.2"/>
       <circle class="node"     cx="1230" cy="320" r="2.2"/>
 
-      <!-- ══════════════════ HEART (bottom-right) ══════════════════ -->
       <line class="line" x1="1150" y1="560" x2="1090" y2="520"/>
       <line class="line" x1="1090" y1="520" x2="1040" y2="540"/>
       <line class="line" x1="1040" y1="540" x2="1015" y2="600"/>
@@ -527,7 +583,7 @@
       <circle class="node" cx="1200" cy="620" r="1.4"/>
       <circle class="node" cx="1150" cy="700" r="1.6"/>
     </svg>
-  </div>  
+  </div>
   <div class="max-w-3xl mx-auto px-5 py-10 sm:py-16 flex flex-col items-center text-center min-h-screen justify-center" style="position:relative;z-index:1;">
     <span class="sticker sticker-coral mono mb-5">🌌 CHEM-LAB-01 · SECURE TERMINAL</span>
     <h1 class="text-3xl sm:text-5xl font-black mb-3 text-sunset-gradient">
@@ -644,13 +700,33 @@
 <!-- ================= SLIDE 4 : FINAL REPORT ================= -->
 <section id="slide4" class="slide tropical-bg">
   <div class="min-h-screen py-14 px-4 sm:px-8">
-    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] gap-8 sm:gap-10">
-      <div class="flex md:flex-col gap-3 overflow-x-auto md:overflow-visible order-2 md:order-1">
-        <img src="pic1.jpg" alt="" class="rounded-2xl border-2 border-[var(--nebula)] shadow-xl w-40 md:w-full flex-shrink-0" onerror="this.style.display='none'">
-        <img src="pic2.jpg" alt="" class="rounded-2xl border-2 border-[var(--nebula)] shadow-xl w-40 md:w-full flex-shrink-0" onerror="this.style.display='none'">
-        <img src="pic3.jpg" alt="" class="rounded-2xl border-2 border-[var(--nebula)] shadow-xl w-40 md:w-full flex-shrink-0" onerror="this.style.display='none'">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[240px_1fr_240px] gap-8 sm:gap-10 items-start">
+
+      <!-- LEFT STATS -->
+      <div class="hidden lg:flex flex-col gap-8 order-2 lg:order-1 pt-14">
+        <div class="stat-card">
+          <span class="stat-emoji">🧪</span>
+          <div class="stat-number text-mango-gradient">46</div>
+          <div class="stat-label">students in the compound</div>
+          <div class="stat-orbit" aria-hidden="true"></div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-emoji">📖</span>
+          <div class="stat-number text-ocean-gradient">6 months</div>
+          <div class="stat-label">reaction time</div>
+          <div class="stat-sub mono">Apr 9 → Oct 17, 2026</div>
+          <div class="stat-orbit" aria-hidden="true"></div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-emoji">💛</span>
+          <div class="stat-number text-sunset-gradient">100%</div>
+          <div class="stat-label">unconditional gratitude</div>
+          <div class="stat-orbit" aria-hidden="true"></div>
+        </div>
       </div>
-      <div class="order-1 md:order-2 text-center md:text-left">
+
+      <!-- MIDDLE -->
+      <div class="order-1 lg:order-2 text-center lg:text-left">
         <span class="sticker sticker-hibiscus mono mb-4">🌠 FINAL CONCLUSION</span>
         <div class="paper-card paper-card-lime mt-4 mb-6 text-left">
           <span class="sticker sticker-mango mono">OBSERVATION</span>
@@ -680,17 +756,35 @@
           — Signed with utmost respect,<br>
           <span class="text-[var(--magenta)] text-base">N-Star</span>
         </p>
-        <div class="text-center md:text-left">
+        <div class="text-center lg:text-left">
           <button id="revisitBtn" class="btn-pop btn-hibiscus mono text-sm">
             🌌 Want to revisit the Constellation of Students?
           </button>
         </div>
       </div>
-      <div class="flex md:flex-col gap-3 overflow-x-auto md:overflow-visible order-3">
-        <img src="pic4.jpg" alt="" class="rounded-2xl border-2 border-[var(--nebula)] shadow-xl w-40 md:w-full flex-shrink-0" onerror="this.style.display='none'">
-        <img src="pic5.jpg" alt="" class="rounded-2xl border-2 border-[var(--nebula)] shadow-xl w-40 md:w-full flex-shrink-0" onerror="this.style.display='none'">
-        <img src="pic6.jpg" alt="" class="rounded-2xl border-2 border-[var(--nebula)] shadow-xl w-40 md:w-full flex-shrink-0" onerror="this.style.display='none'">
+
+      <!-- RIGHT STATS -->
+      <div class="hidden lg:flex flex-col gap-8 order-3 pt-14">
+        <div class="stat-card">
+          <span class="stat-emoji">⚡</span>
+          <div class="stat-number text-ocean-gradient">165</div>
+          <div class="stat-label">chem lectures of energy</div>
+          <div class="stat-orbit" aria-hidden="true"></div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-emoji">🌌</span>
+          <div class="stat-number text-mango-gradient">∞</div>
+          <div class="stat-label">irreplaceable memories</div>
+          <div class="stat-orbit" aria-hidden="true"></div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-emoji">🎓</span>
+          <div class="stat-number text-sunset-gradient">1</div>
+          <div class="stat-label">mentor. the irreplaceable kind.</div>
+          <div class="stat-orbit" aria-hidden="true"></div>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -725,14 +819,14 @@ function typeText(el, text, speed=32, cb){
   }, speed);
 }
 
-/* ========== SOUND (typing clicks) ========== */
+/* ========== SOUND ========== */
 let soundEnabled = true;
 let audioCtx = null;
 function ensureAudio(){
   if(!audioCtx){
     try{
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }catch(e){ /* not supported */ }
+    }catch(e){}
   }
   return audioCtx;
 }
@@ -947,7 +1041,6 @@ const LAYOUT = [
   [45, null, null, null, null, null, null, null, null, null],
 ];
 
-/* COSMIC — less pastel, richer saturation, still light→dark tonal */
 const CATEGORY_GRADIENTS = {
   alkali:     'linear-gradient(160deg,#F472B6,#DB2777)',
   alkaline:   'linear-gradient(160deg,#FCD34D,#D97706)',
@@ -1089,7 +1182,7 @@ document.getElementById('toSlide4').addEventListener('click', ()=>{
   goToSlide('slide3','slide4');
 });
 
-/* ========== SLIDE 4 : REVISIT BUTTON ========== */
+/* ========== SLIDE 4 : REVISIT ========== */
 document.getElementById('revisitBtn').addEventListener('click', ()=>{
   goToSlide('slide4','slide2');
   initSlide2Guard();

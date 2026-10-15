@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>For Mr. Naveen Reddii — Lab Report</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 f0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -54,7 +54,6 @@
       linear-gradient(180deg, #08061A 0%, #0F0A28 55%, #1A0F3D 100%);
     background-attachment:fixed;}
 
-  /* Starfield */
   body::before{
     content:'';position:fixed;inset:0;
     background-image:
@@ -75,7 +74,6 @@
   @keyframes twinkle{0%,100%{opacity:.55;}50%{opacity:.95;}}
   body > *{position:relative; z-index:1;}
 
-  /* Shooting stars — global layer */
   .shooting-stars{
     position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden;
   }
@@ -128,7 +126,6 @@
       radial-gradient(circle at 20% 30%, rgba(34,211,238,0.16) 0%, transparent 30%),
       radial-gradient(circle at 80% 70%, rgba(168,85,247,0.18) 0%, transparent 32%);}
 
-  /* ===== CONSTELLATION OVERLAY ===== */
   .constellation{
     position:absolute;inset:0;pointer-events:none;
     z-index:0;
@@ -218,7 +215,6 @@
     box-shadow:0 0 28px rgba(168,85,247,0.65),0 10px 20px rgba(0,0,0,0.55);}
   .elt-tile:active{transform:translateY(1px);box-shadow:0 0 12px rgba(168,85,247,0.4);}
 
-  /* ===== PERIODIC TABLE ===== */
   .ptable{
     display:grid;
     grid-template-columns:repeat(10, minmax(0,1fr));
@@ -299,7 +295,6 @@
     box-shadow:0 0 10px currentColor;}
   .legend-item{display:flex;align-items:center;gap:6px;white-space:nowrap;}
 
-  /* ===== MODAL ===== */
   .modal-backdrop{position:fixed;inset:0;background:rgba(8,6,26,.85);backdrop-filter:blur(12px);
     display:flex;align-items:center;justify-content:center;padding:20px;z-index:50;
     animation:modalBgIn .25s ease;}
@@ -322,7 +317,6 @@
   #mMsg{white-space:pre-wrap;}
   @media(min-width:1024px){.modal-card{max-width: 820px; padding:36px 44px;}}
 
-  /* ===== HAZARD BUTTON + AURORA ===== */
   .hazard-wrap{position:relative;display:flex;align-items:center;justify-content:center;}
   .aurora{
     position:absolute;
@@ -381,7 +375,6 @@
   .paper-card-lime{box-shadow:0 0 40px rgba(52,211,153,0.30),0 10px 30px rgba(0,0,0,0.5),inset 0 0 30px rgba(52,211,153,0.08);}
   .paper-card-hibiscus{box-shadow:0 0 40px rgba(168,85,247,0.40),0 10px 30px rgba(0,0,0,0.5),inset 0 0 30px rgba(168,85,247,0.10);}
 
-  /* ===== SLIDE 4 : STAT CARDS ===== */
   .stat-card{
     position:relative;
     padding:18px 18px 16px;
@@ -481,7 +474,6 @@
 </head>
 <body>
 
-<!-- SHOOTING STARS LAYER -->
 <div class="shooting-stars" aria-hidden="true">
   <div class="shooting-star s1"></div>
   <div class="shooting-star s2"></div>
@@ -491,7 +483,6 @@
 <button id="devSkipGlobal" class="dev-skip" title="dev: skip to next slide">skip ▸</button>
 <button id="soundToggle" class="sound-toggle" title="toggle typing sound">🔊 sound: on</button>
 
-<!-- ================= SLIDE 1 : LAB LOGIN ================= -->
 <section id="slide1" class="slide active tropical-bg">
   <div class="constellation" aria-hidden="true">
     <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice"
@@ -599,7 +590,6 @@
   </div>
 </section>
 
-<!-- ================= SLIDE 2 : LAB HUB ================= -->
 <section id="slide2" class="slide wave-bg">
   <div class="max-w-5xl mx-auto px-3 sm:px-5 py-6 sm:py-8" style="position:relative;z-index:1;">
     <div class="mb-5 text-center sm:text-left">
@@ -666,7 +656,6 @@
   </div>
 </section>
 
-<!-- ================= SLIDE 3 : SODIUM ================= -->
 <section id="slide3" class="slide">
   <div class="min-h-screen flex flex-col items-center justify-center px-5 py-14 text-center relative overflow-hidden tropical-bg">
     <div class="relative z-10 max-w-2xl w-full flex flex-col items-center">
@@ -697,12 +686,10 @@
   </div>
 </section>
 
-<!-- ================= SLIDE 4 : FINAL REPORT ================= -->
 <section id="slide4" class="slide tropical-bg">
   <div class="min-h-screen py-14 px-4 sm:px-8">
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[240px_1fr_240px] gap-8 sm:gap-10 items-start">
 
-      <!-- LEFT STATS -->
       <div class="hidden lg:flex flex-col gap-8 order-2 lg:order-1 pt-14">
         <div class="stat-card">
           <span class="stat-emoji">🧪</span>
@@ -725,7 +712,6 @@
         </div>
       </div>
 
-      <!-- MIDDLE -->
       <div class="order-1 lg:order-2 text-center lg:text-left">
         <span class="sticker sticker-hibiscus mono mb-4">🌠 FINAL CONCLUSION</span>
         <div class="paper-card paper-card-lime mt-4 mb-6 text-left">
@@ -763,7 +749,6 @@
         </div>
       </div>
 
-      <!-- RIGHT STATS -->
       <div class="hidden lg:flex flex-col gap-8 order-3 pt-14">
         <div class="stat-card">
           <span class="stat-emoji">⚡</span>
@@ -790,7 +775,6 @@
 </section>
 
 <script>
-/* ========== GLOBAL HELPERS ========== */
 function goToSlide(fromId, toId){
   const from = document.getElementById(fromId);
   const to = document.getElementById(toId);
@@ -819,7 +803,6 @@ function typeText(el, text, speed=32, cb){
   }, speed);
 }
 
-/* ========== SOUND ========== */
 let soundEnabled = true;
 let audioCtx = null;
 function ensureAudio(){
@@ -854,7 +837,6 @@ document.getElementById('soundToggle').addEventListener('click', ()=>{
   if(soundEnabled) ensureAudio();
 });
 
-/* ========== GLOBAL DEV SKIP ========== */
 (function(){
   const slideOrder = ['slide1','slide2','slide3','slide4'];
   const btn = document.getElementById('devSkipGlobal');
@@ -869,7 +851,6 @@ document.getElementById('soundToggle').addEventListener('click', ()=>{
   });
 })();
 
-/* ========== SLIDE 1 : LOGIN ========== */
 (function(){
   const targetSeq = ['Na','V','In','Re','Dy'];
   let currentSeq = [];
@@ -960,7 +941,6 @@ document.getElementById('soundToggle').addEventListener('click', ()=>{
   typeText(document.getElementById('typeLine'), 'Enter Your Name:', 55);
 })();
 
-/* ========== SLIDE 2 : PERIODIC TABLE ========== */
 const MSG_BANK = [
   "As stable as a noble gas, always there when it mattered — thank you, Sir, for a year we won't forget.",
   "Reactive, brilliant, impossible to replace. This class was our favourite compound.",
@@ -987,7 +967,15 @@ Before I say anything, I would like to Thank you for eveything you have done for
 (HINT: Though you would have recognized me; but if not think of me as the example of irony… Breaking Silence and yet always searching for it and you shall know.)
 ~  Your Biggest and Most Lively (Enhanced way of calling myself the ‘Naughtiest’) Fan`},
   {z:22,  sym:'Ti', mass:'47.867',  cat:'transition',  name:'TanIsh Gubba',          msg:'"I hear and I forget. I see and I remember. I do and I understand."-Confucius. I will never forget that period of time we had you as our chemistry teacher. You have been inspirational not only as a teacher of chemistry but also of moral ethics and aspects of life, which I am sure only a rare teacher possesses wisdom in. I am sure we will make you proud one day, and we will all smile together after having achieved our goals. Thank you, sir, and we wish you all the best for your future endeavours.'},
-  {z:23,  sym:'V',  mass:'50.942',  cat:'transition',  name:'Venkat Sai Varanasi',   msg: "Hi"},
+  {z:23,  sym:'V',  mass:'50.942',  cat:'transition',  name:'Venkat Sai Varanasi',   msg: `“When you are born, the world rejoices while you cry. Live your life in such a way that when you die, the world cries while you rejoice.” - Robin Sharma
+Sir, I can definitely say that the impact you made in our class is something that will make us tear up when you go and achieve your goals. It is always hard to say goodbye, whether that be a temporary or permanent one, and I know that I will definitely tear up when you say your final goodbyes.
+But let’s not keep this message so sorrowful. Sir, you made boring and “terrifyingly horrific” classes into “horrifically terrific” ones. Whether that be showing the funniest pictures of YBR sir and the coolest pictures of you, sharing stories about your own life, talking about spirituality, guiding us in life and how we should live, teaching the concepts so well that we all understand them, or sharing moral stories that stay with us for a lifetime. I came to Narayana expecting to only study and do nothing else, and I was scared, but sir, you helped me so much in my journey, through hell and back, and I know that your impression will last on me forever.
+On the first day of school, you told us how to make drugs and told us how, just because of one change in the structure, it changes the entire compound. Sir, you were that change in my life. I never had any devotion to God or believed in discipline; I always thought that motivation would stay forever, but if a stubborn person like me, in the end, listens to Shri Rudram as much as I can, listens to 10 hours of Sundarakanda, and makes my will as strong as iron, then you can do anything in this world. This message isn't flattery, sir, but the truth.
+I might never get to say happy birthday to you on 4th December in real life, but I will definitely message you. I might never be taught the full organic chapter by you, but I am happy I was taught the “stupid rules of IUPAC”. Sir, you taught physical and inorganic chemistry so well that conceptual clarity came automatically. We saw you come every day and pour your heart out for us, and we all truly appreciate that. I truly appreciate that.
+I will continue to build Nirnayam, Sir, and hopefully the students along your journey will consider it a boon in their lives. I will miss the colour-coded beach shirts you wear, the spiritual stories, and definitely the red Vespa parked outside with the number plate 1467. Sir, I truly hope you achieve your dreams, and I wish you all the best. I shall never forget you, just like I will never forget the structure of benzene.
+Enjoy the Theobroma cake, sir! We both have a long way to go, and I am glad we met on the way. It’s not goodbye, it's until I see you again.
+Om Namah Shivaya
+Varanasi`},
   {z:28,  sym:'Ni', mass:'58.693',  cat:'transition',  name:'Niharitha OK',          msg: "Dear sir, thank you for being a wonderful teacher in these few months. Besides chemistry, I think you inspired all of us to look for deeper connections in the world and have definitely inspired me to look into spirituality. I will surely miss your storytelling and presence. Wishing you the absolute best in your next chapter!"},
   {z:31,  sym:'Ga', mass:'69.723',  cat:'post',        name:'Anay AGArwal',          msg: "Sir, honestly, it is really difficult to say goodbye. You have been much more than just a chemistry teacher to me. Thank you for all the things you have taught me, for always being patient with us, and for encouraging us whenever we needed it. I am genuinely grateful for all the memories, guidance, and support you have given us. I am really going to miss having you around. I wish you nothing but the very best for this new chapter of your life. I hope whatever you choose to do next brings you lots of happiness, success, and peace. You will always have my respect and a special place in my memories, Sir."},
   {z:33,  sym:'As', mass:'74.922',  cat:'metalloid',   name:'AnShuman Yadav',        msg: "Sir, this is to say that you will be missed by all of us. Over these few months, I have enjoyed all the chemistry classes, and thanks to you, you weren't just a chemistry teacher to us but a friend who listened to everything we had to say and also taught us more about life and how to be better human beings. I became much more interested in chemistry than I expected and started finding every small detail beautiful, as you say beauty really is in the eye of the beholder. I have looked up to you since the beginning, and I really hope that whatever you do, it works out for you. All the best, sir, hoping you succeed. Goodbye."},
@@ -1153,7 +1141,6 @@ window.addEventListener('beforeunload', function(e){
   }
 });
 
-/* ========== SLIDE 3 ========== */
 let slide3Started = false;
 function startSlide3(){
   if(slide3Started) return;
@@ -1182,7 +1169,6 @@ document.getElementById('toSlide4').addEventListener('click', ()=>{
   goToSlide('slide3','slide4');
 });
 
-/* ========== SLIDE 4 : REVISIT ========== */
 document.getElementById('revisitBtn').addEventListener('click', ()=>{
   goToSlide('slide4','slide2');
   initSlide2Guard();
